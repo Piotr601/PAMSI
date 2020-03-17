@@ -40,7 +40,7 @@ void Stos::push(int i) {
 			tab[j] = pom[j];
 		}
 
-		tab[++head] = i;
+		tab[++head] = i;			// Stos dziala tylko do 12 cyfr, z czego nie wiem dlaczego pod 8 elementem wyrzuca duza liczbe
 	}
 	else
 		tab[++head] = i;
