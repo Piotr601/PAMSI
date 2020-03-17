@@ -27,17 +27,16 @@ public:
 
 
 void Stos::push(int i) {
-	if ((START) < head)
+	if ((START - 1) <= head)
 	{
-		//cout << "Stos przepelniony ";  // Zrobiæ by tablica powiekszala sie !
-
-		int pom[2 * START];
-
+		//cout << "Stos przepelniony ";  // Zrobiæ by tablica powiekszala sie 
+		int pom[2 * START];	
+		
 		for (int j = 0; j < head; j++)
 		{
-			pom[i] = tab[i];
-			tab[i] = pom[i];
-		}	
+			pom[j] = tab[j];
+			tab[j] = pom[j];
+		}
 
 		tab[++head] = i;
 	}
