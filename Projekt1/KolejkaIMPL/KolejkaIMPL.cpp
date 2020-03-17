@@ -30,7 +30,7 @@ void Queue::push(int z)
 {
 	Queue* ptr = new Queue();	// stworzenie wskaznika na nowy element
 	ptr->element = z;			// przypisanie 1 elementu tablicy wartoscia
-	ptr->wsk = NULL;			// przypisanie 2 elementu tablicy na NULL
+	ptr->wsk = NULL;			// przypisanie 2 elementu tablicy adresem nastepnej komorki
 
 	if (front == NULL)			// Jezeli poczatku nie ma to wskaznik jest jednoczensnie poczatkiem i koncem
 	{
@@ -64,7 +64,7 @@ void Queue::pop()
 		front = back = NULL;
 	}
 	else
-	{									// poczatek jest przypisywany nastepnemu poczatkowi, ktory wskazuje na 2 element
+	{									// poczatek jest przypisywany nastepnemu poczatkowi, ktory wskazuje na poprzedni element
 		Queue *ptr = front;
 		front = front->wsk;	
 		free(ptr);						// wskaznik jest zwalniany, by nie tracic pamieci
