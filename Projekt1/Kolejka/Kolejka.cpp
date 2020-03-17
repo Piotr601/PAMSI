@@ -1,7 +1,7 @@
 ﻿#include "Kolejka.h"
 
 #include <iostream>
-#include <list>
+#include <queue>
 
 #define RANGE 100
 
@@ -18,25 +18,23 @@ void print(std::queue<int> kolejka) {
 int main()
 {
 
-	std::list<int> lista;
+	std::queue<int> kolejka;
 
 
 	char x = 0;
 	int r, pom, pom1, i;
 
-	cout << "                   MENU - lista \n";
-	cout << " (a) wyswietlanie zawartosci listy\n"
-		<< " (b) wyswietlenie liczby elementów listy\n"
-		<< " (c) wyswietlenie ostatniego elementu listy\n"
-		<< " (d) wyswietlenie pierwszego elementu listy\n"
-		<< " (e) dodanie losowego elementu na poczatku listy\n"
-		<< " (f) dodanie losowego elementu na koncu listy\n"
-		<< " (g) dodanie k elementów na poczatku listy\n"
-		<< " (h) dodanie l elementów na koncu listy\n"
-		<< " (i) usuwanie elementu na koncu listy\n"
-		<< " (j) usuwanie j elementów na koncu listy\n"
-		<< " (k) usuwanie wszystkich elementów z listy\n\n"
-		<< " <e> wyjscie z programu \n\n";
+	cout << "                   MENU - kolejka \n";
+	cout << " |-| a (add) - dodaj losowy element na koniec kolejki\n";
+	cout << " |-| r (random) - dodaj r losowych elementow do kolejki\n";
+	cout << " |-| d (delete) - usuniecie elementu na poczatku kolejki\n";
+	cout << " |-| k (k delete) - usuniecie k elementow poczatkowych z kolejki\n";
+	cout << " |-| s (stack) - wyswietl kolejke\n";
+	cout << " |-| n (number) - ilosc elementow w kolejce\n";
+	cout << " |-| t (top) - sprawdz pierwszy element kolejki\n\n";
+	cout << " |*| e (exit) - wyjscie z programu\n\n";
+
+
 
 	while (x != 101) {
 		switch (x = getchar())
@@ -45,7 +43,7 @@ int main()
 				r = rand() % RANGE;
 				kolejka.push(r);
 				break;
-				
+
 			case 'r':	// dodanie kilku elementow na koniec kolejki
 				cout << "Podaj liczbe powtorzen: ";
 				cin >> pom;
@@ -64,8 +62,8 @@ int main()
 				}
 				else
 					kolejka.pop();
-					break;
-		
+				break;
+
 			case 'k':	// usuniecie k elementow z poczatku kolejki
 				if (kolejka.empty() == 1)
 				{
@@ -111,10 +109,6 @@ int main()
 				break;
 		}
 
-
-
-
 	}
-
 	return 0;
 }
