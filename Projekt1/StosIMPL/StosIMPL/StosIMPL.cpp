@@ -1,5 +1,6 @@
 #include "StosIMPL.h"
 #include <iostream>
+#include <cstdlib>
 
 
 #define START 5
@@ -27,6 +28,7 @@ public:
 
 
 void Stos::push(int i) {
+
 	if ((START - 1) <= head)
 	{
 		//cout << "Stos przepelniony ";  // Zrobiæ by tablica powiekszala sie 
