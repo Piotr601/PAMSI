@@ -17,7 +17,6 @@ void print(std::stack<int> stos) {
 		cout << stos.top() << " ";
 		stos.pop();
 	}
-
 }
 
 int main()
