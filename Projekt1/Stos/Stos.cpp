@@ -25,7 +25,7 @@ int main()
 	std::stack<int> stos;
 
 	char x=0;
-	int r, pom, i;
+	int r, pom, pom1, i;
 
 	cout << "                   MENU - Stos \n";
 	cout << " |-| a (add) - dodaj losowy element\n";
@@ -34,7 +34,7 @@ int main()
 	cout << " |-| d (delete) - usuniecie elementu na szczycie stosu\n";
 	cout << " |-| k (k delete) - usuniecie k elementow ze stosu\n";
 	cout << " |-| s (stack) - wyœwietl stos\n";
-	cout << " |-| n (number) - iloœæ liczb na stosie\n\n";
+	cout << " |-| n (number) - ilosc liczb na stosie\n\n";
 	cout << " |*| e (exit) - wyjscie z programu\n\n";
 
 	
@@ -69,16 +69,51 @@ int main()
 			if (stos.empty() == 1)
 			{
 				cout << "Brak elementow na stosie\n";
+				break;
 			}
 			else
 				stos.pop();
+			break;
+
+		case 'k': // usuniecie k ze szczytu stosu
+			if (stos.empty() == 1)
+			{
+				cout << "Brak elementow na stosie\n";
+				break;
+			}
+			else
+			{
+				cout << "Podaj liczbe powtorzen: ";
+				cin >> pom1;
+				for (i = 0; i < pom1; i++)
+				{
+					if (stos.empty() == 1) {
+						cout << "Stos jest juz pusty - liczba usuniec wieksza niz liczba elementow stosu";
+						break;
+					}
+					else
+						stos.pop();
+				}
+			}
+
+		case 's': // wyœwietla stos
+			if (stos.empty() != 1)
+			{
+				print(stos);
+				cout << "\n";
+			}
+			else
+				cout << ">> Stos jest pusty\n";
+			break;
+
+		case 'n': //wyswietla liczbe elementow na stosie
+			cout << "> Liczba elementow stosu: "  << stos.size() << "\n";
 			break;
 	}
 }
 
 
 
-	print(stos);
 
 	return 0;
 }
