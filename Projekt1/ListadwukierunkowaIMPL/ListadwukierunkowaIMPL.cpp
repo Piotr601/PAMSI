@@ -161,6 +161,7 @@ void backdisplay()
 /	KLUCZE
 */
 
+// licznik liczacy ile elementow jest na liscie
 int counter()
 {
 	int a = 1;					// sumator zliczajacy
@@ -174,6 +175,7 @@ int counter()
 	return a;
 };
 
+// dodawanie elementu do listy z wybranym indeksem
 void indexadd(int index, int value)
 {
 	if (index == 0)					// gdy wartosc jest zerem
@@ -201,6 +203,7 @@ void indexadd(int index, int value)
 	}
 };
 
+// usuwanie elementu z listy po wybranym indeksie
 void indexdel(int index)
 {
 	if (index == 0)						// podobnie jak wyzej
@@ -267,7 +270,6 @@ int main()
 				cout << "Lista nie jest pusta\n";
 			else
 				cout << "Lista jest pusta\n";
-
 			break;
 
 		case 'b':
