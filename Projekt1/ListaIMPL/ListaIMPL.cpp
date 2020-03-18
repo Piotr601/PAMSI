@@ -96,7 +96,7 @@ void backdel()
 			front = back = NULL;
 		}
 		else
-		{				
+		{
 			SinglyLinkedList* ptr = front;
 			while (ptr->adress->adress != NULL) {			// przekazywanie adresu na tym, ktory nie byl NULL (ostatnim)
 				ptr = ptr->adress;							// zmiana adresu
@@ -109,49 +109,118 @@ void backdel()
 };
 
 // wyswietlanie listy
-	void display()
+void display()
+{
+	if (empty())
+		cout << "Lista pusta\n";
+	else
 	{
-		if (empty())
-			cout << "Lista pusta\n";
-		else
+		SinglyLinkedList* ptr = front;
+		while (ptr != NULL)
 		{
-			SinglyLinkedList* ptr = front;
-			while (ptr != NULL)
-			{
-				cout << ptr->element << " ";				// wypisywanie elementow
-				ptr = ptr->adress;							// przeskakiwanie po elementach
-			}
+			cout << ptr->element << " ";				// wypisywanie elementow
+			ptr = ptr->adress;							// przeskakiwanie po elementach
 		}
+	}
 
-	};
+};
 
 // wyswietlenie pierwszego elementu
-	void frontdisplay()
+void frontdisplay()
+{
+	if (empty())
+		cout << "Lista pusta\n";
+	else
 	{
-		if (empty())
-			cout << "Lista pusta\n";
-		else
-		{
-			cout << " Pierwszy element: ";
-			SinglyLinkedList* ptr = front;				// wskaznik - poczatek
-			cout << ptr->element << endl;				// wypisanie elementu na ktory wskazuje wskaznik (poczatek)
+		cout << " Pierwszy element: ";
+		SinglyLinkedList* ptr = front;				// wskaznik - poczatek
+		cout << ptr->element << endl;				// wypisanie elementu na ktory wskazuje wskaznik (poczatek)
 
-		}
 	}
+};
 
 // wyswietlenie ostatniego elementu 
-	void backdisplay()
+void backdisplay()
+{
+	if (empty())
+		cout << "Lista pusta\n";
+	else
 	{
-		if (empty())
-			cout << "Lista pusta\n";
-		else
+		cout << " Ostatni element: ";
+		SinglyLinkedList* ptr = back;				// wskaznik - koniec
+		cout << ptr->element << endl;				// wypisanie elementu na ktory wskazuje wskaznik (koniec)
+	}
+
+};
+
+ //
+ //  @@  KLUCZ  @@
+ // 
+
+// pomocnicza funkcja do zliczania elementow
+int counter()
+{
+		int a = 1;					// sumator zliczajacy
+		SinglyLinkedList* ptr = front;
+		while (ptr != NULL)
 		{
-			cout << " Ostatni element: ";
-			SinglyLinkedList* ptr = back;				// wskaznik - koniec
-			cout << ptr->element << endl;				// wypisanie elementu na ktory wskazuje wskaznik (koniec)
+			a++;
+			ptr = ptr->adress;			// przeskakiwanie po kolejnych tablicach
+
+		}
+		return a;
+};
+
+// PODMIENIA ZAMIAST DODAWAC
+void indexadd(int index, int value)
+{
+	if (index == 0)					// gdy wartosc jest zerem
+		frontadd(value);			// dodajemy na poczatek
+	else
+	if (index >= counter())			// gdy wartosc jest ostatnia
+		backadd(value);				// dodajemy na koniec
+	else
+	{
+		SinglyLinkedList* ptr = front;
+		SinglyLinkedList* temp;				// pomocnicza klasa
+
+		int i = 0;
+		while (ptr->adress != NULL && i < index-1) {
+			ptr = ptr->adress;					// wskaznik pokazuje nam adres
+			i++;
+		}
+		temp = ptr->adress;								// tymczasowa / pomocnicza zapamietuje adresy
+		ptr->adress = (SinglyLinkedList*)malloc(sizeof(SinglyLinkedList));		// zarezerwowanie pamieci na nowy element
+		ptr->adress->element = value;					// zapisujemy elementy dla danego adresu
+		ptr->adress->adress=temp;						// przepisuje adresy do wskaznika i glownej klasy
+		
+	}
+};
+
+void indexdel(int index)
+{
+	if (index == 0)						// podobnie jak wyzej
+		frontdel();
+	else
+	if (index == counter())
+		backdel();
+	else
+	{
+		SinglyLinkedList* ptr = front;
+		SinglyLinkedList* temp;					// pomocnicza klasa
+
+		int i = 0;
+		while (ptr->adress != NULL && i < index - 1) {
+			ptr = ptr->adress;					// wskaznik pokazuje nam adres
+			i++;
 		}
 
+		temp = ptr->adress;						// pomocnicze zapamietanie
+		ptr->adress = temp->adress;				// przepisanie adresów
+		free(temp);								//zwalnianie pamieci
+
 	}
+};
 
 // =============================================== //
 //					 OBRAZKI					   //
@@ -207,17 +276,21 @@ int main() {
 	cout << "(a) sprawdzenie czy lista jest pusta\n"
 		<< "(b) dodanie elementu do listy na poczatek\n"
 		<< "(c) dodanie elementu do listy na koniec\n"
-		<< "[d] ! BRAK ! wstawienie elementu do listy po elemencie z zadanym kluczem\n"
+		<< "[d] wstawienie elementu do listy po elemencie z zadanym kluczem\n"
+		// nalezy pamietac ze indexujemy od 0!
 		<< "(e) usuniecie poczatkowego elementu z listy\n"
 		<< "(f) usuniecie ostatniego elementu z listy\n"
-		<< "[g] ! BRAK !  usuniecie wybranego elementu(zawierajacego zadany klucz) z listy\n"
+		<< "[g] usuniecie wybranego elementu(zawierajacego zadany klucz) z listy\n"
+		// nalezy pamietac ze indexujemy od 0!
 		<< "(h) wyswietlenie zawartosci listy\n"
 		<< "(i) wyswietlenie pierwszego elementu\n"
 		<< "(j) wyswietlenie ostatniego elementu\n\n"
-		<< "<k> wyjscie z programu \n\n";
+		<< "<k> wyjscie z programu \n"
+		<< " Punkty |d|,|g| Nalezy pamietac ze indeksujemy od 0!\n\n";
 
 	char x = 0;
 	int z;
+	int index, value;
 
 
 	while (x != 107)	// warunek na wyjscie z programu ASCII  102 ='f'
@@ -244,9 +317,13 @@ int main() {
 			backadd(z);
 			break;
 
-		case 'd':	
-			// :< BRAK
-			cout << "brak :<\n\n";
+		case 'd':		// nalezy pamietac ze indexujemy od 0!
+			cout << "Podaj index: ";
+			cin >> index;
+
+			cout << "\nPodaj wartosc: ";
+			cin >> value;
+			indexadd(index, value);
 			break;
 
 		case 'e':
@@ -257,9 +334,10 @@ int main() {
 			backdel();
 			break;
 
-		case 'g': 
-			// :< BRAK
-			cout << "brak :<\n\n";
+		case 'g':		// nalezy pamietac ze indexujemy od 0!
+			cout << "Podaj index: ";
+			cin >> index;
+			indexdel(index);
 			break;
 
 		case 'h':
