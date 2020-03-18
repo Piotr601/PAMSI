@@ -9,7 +9,7 @@ class SinglyLinkedList {
 public:
 	int element;
 	SinglyLinkedList* adress;
-};
+};	
 
 // wskazniki - poczatku i konca listy
 SinglyLinkedList* front = NULL;
@@ -351,7 +351,6 @@ int main() {
 		case 'j':
 			backdisplay();
 			break;
-
 
 		}
 	}
