@@ -1,8 +1,9 @@
 #include "Sortowanie.h"
 
-#include <iostream>
-using namespace std;
+/*
+	Plik Sortowanie.cpp
 
-int dodawanie(int a, int b) {
-	return a + b;
-}
+	Plik w którym znajd¹ sie wszystkie funkcji wraz z kodem
+	które bêd¹ potrzebne do sortowañ
+
+*/
