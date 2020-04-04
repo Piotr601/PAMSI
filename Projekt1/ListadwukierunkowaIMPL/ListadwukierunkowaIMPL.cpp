@@ -8,6 +8,7 @@ using namespace std;
 class DoublyLinkedList {
 public:
 	int element;
+
 	DoublyLinkedList* next_adress;
 	DoublyLinkedList* previous_adress;
 };
@@ -294,7 +295,8 @@ int main()
 			break;
 
 		case 'e':
-			frontdel();
+			if(empty()!=1)
+				frontdel();
 			break;
 
 		case 'f':	
