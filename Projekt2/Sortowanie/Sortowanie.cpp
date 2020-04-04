@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-#define N 100	// wielkosc tablicy
+#define N 1000000	// wielkosc tablicy
 
 /*
 	Plik Sortowanie.cpp
@@ -13,6 +13,7 @@
 */
 
 int tab[N];		// glowna tablica
+int pom[N];		// tablica pomocnicza
 
 /*
 =================
@@ -20,24 +21,13 @@ int tab[N];		// glowna tablica
 =================
 */
 
-void MergeSort(int leftIndex, int rightIndex)
-{
-	if (leftIndex < rightIndex) {					// dzielimy dopoki nie bedzie jednego elementu
-		int middle = (leftIndex + rightIndex) / 2;	// srodek
-
-		MergeSort(leftIndex, middle);				// sortujemy lewa podtablice
-		MergeSort(middle+1, rightIndex);			// sortujemy prawa podtablice
-		
-		Merge(leftIndex, middle, rightIndex);		// polaczenie podtablic
-	}
-}
 
 void Merge(int leftIndex, int middleIndex, int rightIndex)	// laczenie tablic
 {
-	int pom[N];				  // tablica pomocnicza
 	int p1 = leftIndex;		  // pointer1 - wskazuje na poczatek pierwszej tablicy
 	int p2 = middleIndex + 1; // pointer2 - wskazuje na poczatek drugiej tablicy
 	int curr = leftIndex;	  // current - indeks, gdzie wpisujemy najmniejszy element
+
 
 	for (int i = leftIndex; i <= rightIndex; i++) {		// kopiowanie tablicy
 		pom[i] = tab[i];
@@ -51,7 +41,7 @@ void Merge(int leftIndex, int middleIndex, int rightIndex)	// laczenie tablic
 		else {								// element 2 podtablicy jest mniejszy
 			tab[curr] = pom[p2];			// PDTG*
 			p2++; curr++;					// ZW*
-		}		
+		}
 	}
 
 	while (p1 <= middleIndex) {				// dopoki elementy w 1 tablicy sa
@@ -60,23 +50,55 @@ void Merge(int leftIndex, int middleIndex, int rightIndex)	// laczenie tablic
 	}
 }
 
+int MergeSort(int leftIndex, int rightIndex)
+{
+
+	if (leftIndex < rightIndex) {					// dzielimy dopoki nie bedzie jednego elementu
+		int middle = (leftIndex + rightIndex) / 2;	// srodek
+
+		MergeSort(leftIndex, middle);				// sortujemy lewa podtablice
+		MergeSort(middle + 1, rightIndex);			// sortujemy prawa podtablice
+
+		Merge(leftIndex, middle, rightIndex);		// polaczenie podtablic
+	}
+	return 0;
+
+	if (rightIndex >= leftIndex) return 1;
+}
+
+
 /*
 ==================
   Funkcje OGOLNE
 ==================
 */
 
+// Tworzy losowa tablice
 void Stworz()
 {
-	for (int i = 0; i < N; i++) {
-		tab[i] = rand() % 1000;
+	for ( int i = 0; i < N; i++ ) {
+		tab[i] = rand() % N;
 	}
 }
 
-void Wyswietl() 
+// Wyswietla tablice po/przed sortowaniem
+void Wyswietl()
 {
-	for (int i = 0; i < N; i++) {
-		if (i % 25 == 0) std::cout << '\n';
+	for ( int i = 0; i < N; i++ ) {
+		if ( i % 25 == 0 ) std::cout << '\n';
 		std::cout << tab[i] << ' ';
 	}
 }
+
+// Warunek czy sortowanie dziala dobrze
+int Sprawdz()
+{
+	for ( int i = 0; i < N; i++ ) {
+		if ( i != 0 && tab[i] < tab[i - 1] ) {
+			std::cout << "\n >>>> BLAD W SORTOWANIU <<<< \n";
+			return 1;
+		}
+	}
+	return 0;
+}
+

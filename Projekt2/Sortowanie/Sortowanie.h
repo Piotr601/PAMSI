@@ -15,9 +15,10 @@
 void Wyswietl();
 void Stworz();
 
+int Sprawdz();
 
 // Sortowanie przez scalanie ( Merge )
 
 void Merge(int leftIndex, int middleIndex, int rightIndex);
-void MergeSort(int leftIndex, int rightIndex);
+int MergeSort(int leftIndex, int rightIndex);
 
