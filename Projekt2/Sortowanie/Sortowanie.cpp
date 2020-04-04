@@ -1,6 +1,7 @@
 #include "Sortowanie.h"
 #include <iostream>
 
+
 #define N 100	// wielkosc tablicy
 
 /*
@@ -43,7 +44,7 @@ void Merge(int leftIndex, int middleIndex, int rightIndex)	// laczenie tablic
 	}
 
 	while (p1 <= middleIndex && p2 <= rightIndex) {	// dopoki nie dojdziemy do konca 1 tab i 2 tab
-		if (pom[p1] <= pom[p1]) {			// element 1 podtablicy jest mniejszy
+		if (pom[p1] <= pom[p2]) {			// element 1 podtablicy jest mniejszy
 			tab[curr] = pom[p1];			// PDTG* - przepisz do tablicy glownej
 			p1++; curr++;					// ZW* - zwiekszanie indeksu
 		}
@@ -61,7 +62,7 @@ void Merge(int leftIndex, int middleIndex, int rightIndex)	// laczenie tablic
 
 /*
 ==================
-  Funkcje GLOWNE
+  Funkcje OGOLNE
 ==================
 */
 
@@ -75,6 +76,7 @@ void Stworz()
 void Wyswietl() 
 {
 	for (int i = 0; i < N; i++) {
+		if (i % 25 == 0) std::cout << '\n';
 		std::cout << tab[i] << ' ';
 	}
 }

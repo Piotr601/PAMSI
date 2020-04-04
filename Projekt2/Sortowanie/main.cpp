@@ -1,6 +1,8 @@
 ﻿#include "Sortowanie.h"
-
 #include <iostream>
+#include <cstdlib>
+#include <time.h>
+
 #define N 100
 using namespace std;
 
@@ -15,14 +17,15 @@ using namespace std;
 
 int main()
 {
+    srand(time(NULL));
+
     Stworz();
     cout << "Przed: \n";
     Wyswietl();
 
     MergeSort(0, N-1);
 
-    cout << "\n\n Po: \n";
+    cout << "\n\nPo: \n";
     Wyswietl();
     
-
 }
