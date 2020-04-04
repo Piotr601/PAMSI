@@ -1,5 +1,8 @@
 ﻿#include "Sortowanie.h"
 
+#include <iostream>
+#define N 100
+using namespace std;
 
 /*
     Plik main.cpp
@@ -9,14 +12,17 @@
 
 */
 
-#include <iostream>
-
-using namespace std;
 
 int main()
 {
-    cout << "\nHello World!\n";
+    Stworz();
+    cout << "Przed: \n";
+    Wyswietl();
 
+    MergeSort(0, N-1);
+
+    cout << "\n\n Po: \n";
+    Wyswietl();
     
-    return 0;
+
 }
