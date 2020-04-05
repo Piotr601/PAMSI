@@ -1,8 +1,10 @@
 #include "Sortowanie.h"
+
 #include <iostream>
+#include <algorithm>
 
 
-#define N 1000000	// wielkosc tablicy
+#define N 500000	// wielkosc tablicy
 
 /*
 	Plik Sortowanie.cpp
@@ -52,7 +54,7 @@ void Merge(int leftIndex, int middleIndex, int rightIndex)	// laczenie tablic
 
 int MergeSort(int leftIndex, int rightIndex)
 {
-
+	
 	if (leftIndex < rightIndex) {					// dzielimy dopoki nie bedzie jednego elementu
 		int middle = (leftIndex + rightIndex) / 2;	// srodek
 
@@ -63,9 +65,50 @@ int MergeSort(int leftIndex, int rightIndex)
 	}
 	return 0;
 
-	if (rightIndex >= leftIndex) return 1;
+	if (rightIndex >= leftIndex) return 1;			// je¿eli jest tylko jeden element, badz mniej
 }
 
+/*
+==================
+    QUICKSORT
+==================
+*/
+
+int QuickSort(int leftIndex, int rightIndex)
+{
+
+	// Dzielenie
+	int pivot = tab[rightIndex];	// element wybrany, ktory bedzie porownywany
+	int border = leftIndex - 1;		// granica, ktora stoi przed indeksem w danym problemie, bedzie dzielila na inne podroblemy
+	int counter = leftIndex;		// umozliwia przemieszczanie sie po tablicy w lewo -- i prawo ++
+
+	while (counter < rightIndex) { 	// dopoki nie bedzie konca tablicy
+		if (tab[counter] < pivot) {		// jezeli element pod danym indeksem jest wiekszy od pivota
+			border++;						// przesuwamy granice
+			if (border != counter) {			// jezeli granica jest rozna od obecnego elementu
+				std::swap(tab[border],tab[counter]);	// zamieniamy wartosci
+			}
+		}
+		counter++;					// zwiekszanie licznika
+	}
+	border++;						// zwiekszanie granicy
+
+	if (border != rightIndex) {		// jezeli granica jest rozna /rowna/ od indeksu prawego
+
+		std::swap(tab[border],tab[rightIndex]);	// zamieniamy elementy
+	}
+
+
+	// Wywo³anie
+	if (leftIndex <= rightIndex) {				// dopoki nie ma konca
+		QuickSort(leftIndex, border - 1);	    // wywolujemy quicksorty dla podzielonych danych jednoczesnie
+		QuickSort(border + 1, rightIndex);		// nie uwzglêdniaj¹c pivota ( bo jest juz posortowany )
+	}
+	return 0;
+
+	if (leftIndex >= rightIndex) return 1;	// Gdy jest jeden element badz mniej
+
+}
 
 /*
 ==================
@@ -77,7 +120,7 @@ int MergeSort(int leftIndex, int rightIndex)
 void Stworz()
 {
 	for ( int i = 0; i < N; i++ ) {
-		tab[i] = rand() % N;
+		tab[i] = rand() % N + 1;
 	}
 }
 
@@ -95,7 +138,7 @@ int Sprawdz()
 {
 	for ( int i = 0; i < N; i++ ) {
 		if ( i != 0 && tab[i] < tab[i - 1] ) {
-			std::cout << "\n >>>> BLAD W SORTOWANIU <<<< \n";
+			std::cout << "\n\n >>>> BLAD W SORTOWANIU <<<< \n";
 			return 1;
 		}
 	}

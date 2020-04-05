@@ -4,7 +4,7 @@
 #include <time.h>
 #include <ctime>
 
-#define N 1000000
+#define N 500000
 using namespace std;
 
 
@@ -21,25 +21,24 @@ int main()
     double timemerge=0;
     clock_t start, stop;
 
-    int ilosc = 2;
+    int ilosc = 100;
 
     for (int i = 0; i < ilosc; i++) {
 
         Stworz();
-       // cout << "Przed: \n";
-       // Wyswietl();
+      //  cout << "Przed: \n";  Wyswietl();
 
         start = clock();
-        MergeSort(0, N-1);
+       // MergeSort(0, N-1);
+        QuickSort(0, N);
         stop = clock();
         Sprawdz();
         timemerge += (double_t)(stop - start) / CLOCKS_PER_SEC;
     }
 
-    //cout << "\nPo: \n";
-    //Wyswietl();
+     //cout << "\nPo: \n"; Wyswietl();
 
-    cout << "\nSuma: " << timemerge << endl;
+    cout << "\n\nSuma: " << timemerge << endl;
     cout << "\nCzas to: " << timemerge/ilosc << endl;
 
 }

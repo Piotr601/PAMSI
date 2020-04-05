@@ -22,3 +22,6 @@ int Sprawdz();
 void Merge(int leftIndex, int middleIndex, int rightIndex);
 int MergeSort(int leftIndex, int rightIndex);
 
+// Sortowanie szybkie
+
+int QuickSort(int leftIndex, int rightIndex);
