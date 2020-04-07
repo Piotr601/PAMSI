@@ -22,7 +22,7 @@ int main()
 {
    srand(time(NULL));
    double timemerge=0, timemerge1=0;
-   clock_t start, stop;
+   time_t start, stop;
 
     int ilosc = 1;
     int K = Procentowe() - 1;
@@ -48,7 +48,9 @@ int main()
         timemerge += (double_t)(stop - start) / CLOCKS_PER_SEC;
 
         cout << "\nPo: \n"; Wyswietl();
-       // cout << "\nPo: \n"; Wyswietl();
+
+        Odwroc();
+        cout << "\nPo odwroceniu: \n"; Wyswietl();
 
     /*
         Stworz();
@@ -62,7 +64,7 @@ int main()
         @@@@@*/
 
     }
-
+  
 
     //cout << "\n\nSuma: " << timemerge << endl;
     cout << "\nCzas to: " << timemerge/ilosc << endl;

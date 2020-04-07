@@ -20,6 +20,9 @@
 
 void Wyswietl();
 void Stworz();
+
+void Odwroc();
+
 int Sprawdz();
 int Procentowe();
 

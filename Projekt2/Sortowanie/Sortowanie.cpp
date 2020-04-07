@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <cmath>
 
-extern const int N = 1000;
-extern const float percent = 99.0;
+extern const int N = 10;
+extern const int percent = 1000;
 /*
 	Plik Sortowanie.cpp
 
@@ -437,14 +437,14 @@ void Wyswietl()
 
 // Warunek czy sortowanie dziala dobrze
 int Procentowe() {
-	int lperc = (N * percent) / 100;
+	int lperc = (N * percent) / 1000;
 
 	return lperc;
 }
 
 int Sprawdz()
 {
-	int lperc = (N * percent) / 100;
+	int lperc = (N * percent) / 1000;
 
 	for ( int i = 0; i < lperc; i++ ) {
 		if ( i != 0 && tab[i] < tab[i - 1] ) {
@@ -455,7 +455,7 @@ int Sprawdz()
 	return 0;
 }
 
-int Odwroc() {
+void Odwroc() {
 
-
+		std::reverse(std::begin(tab), std::end(tab));
 }
