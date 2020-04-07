@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <cstdlib>
+
+
 #include <time.h>
 #include <ctime>
 
@@ -9,8 +11,6 @@
 extern const int N;
 
 using namespace std;
-
-
     /*
     ==================
 	       MAIN
@@ -25,28 +25,29 @@ int main()
    clock_t start, stop;
 
     int ilosc = 1;
+    int K = Procentowe() - 1;
 
     for (int i = 0; i < ilosc; i++) {
 
-
         Stworz();
-        //cout << "\n\nPrzed: \n";  Wyswietl();
+        cout << "\n\nPrzed: \n";  Wyswietl();
 
         start = clock();
-        //MergeSort(0, N-1);
-        //QuickSortv1(0, N);
 
-       // HybridSort(0,N-1);
-        //QuickSortv3(0, N);
+        //MergeSort(0, N-1);
+        //QuickSortv2(0, N-1);
+            
+        QuickSortv3(0, K);
  
-        HeapSortv2(0,N);
-        //Insertion(0,N);
+        //HeapSortv2(0,N-1);
+        //Insertion(0,N-1);
+        //HybridSort(0,N-1);
 
         stop = clock();
         Sprawdz();
         timemerge += (double_t)(stop - start) / CLOCKS_PER_SEC;
 
-       // cout << "\nPo: \n"; Wyswietl();
+        cout << "\nPo: \n"; Wyswietl();
        // cout << "\nPo: \n"; Wyswietl();
 
     /*

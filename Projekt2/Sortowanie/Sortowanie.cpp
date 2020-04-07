@@ -4,7 +4,8 @@
 #include <algorithm>
 #include <cmath>
 
-extern const int N = 1000000;
+extern const int N = 1000;
+extern const float percent = 99.0;
 /*
 	Plik Sortowanie.cpp
 
@@ -176,7 +177,6 @@ void QuickSortv3(int leftIndex, int rightIndex) {
 		QuickSortv3(i, rightIndex);
 
 }
-
 /*
 ======================
 		 HEAP
@@ -186,6 +186,7 @@ void QuickSortv3(int leftIndex, int rightIndex) {
 /* ====================
 		   V1
    ===================*/
+
 void Heap(int begin, int end, int mov)		// tablica, poczatek, koniec, przesuniecie
 {
 	int j = begin;					// przechowuje korzen
@@ -332,12 +333,12 @@ void IntroSort(int leftIndex,int rightIndex, int max)
 {
 	int size = rightIndex - leftIndex + 1;
 
-	if ( size <= 16) {
+	if ( size <= 20) {
 		Insertion(leftIndex,rightIndex);
 	}
 
 	else if (max == 0) {	
-		HeapSort(leftIndex,rightIndex);
+		HeapSortv2(leftIndex,rightIndex);
 	}
 	else if (leftIndex < rightIndex) {
 
@@ -411,7 +412,6 @@ void IntroSortv2(int leftIndex, int rightIndex, int max)
 }
 
 
-
 /*
 ==================
   Funkcje OGOLNE
@@ -436,9 +436,17 @@ void Wyswietl()
 }
 
 // Warunek czy sortowanie dziala dobrze
+int Procentowe() {
+	int lperc = (N * percent) / 100;
+
+	return lperc;
+}
+
 int Sprawdz()
 {
-	for ( int i = 0; i < N; i++ ) {
+	int lperc = (N * percent) / 100;
+
+	for ( int i = 0; i < lperc; i++ ) {
 		if ( i != 0 && tab[i] < tab[i - 1] ) {
 			std::cout << "\n\n >>>> BLAD W SORTOWANIU <<<< \n";
 			return 1;
@@ -447,3 +455,7 @@ int Sprawdz()
 	return 0;
 }
 
+int Odwroc() {
+
+
+}

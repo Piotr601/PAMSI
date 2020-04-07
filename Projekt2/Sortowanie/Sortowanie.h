@@ -21,6 +21,7 @@
 void Wyswietl();
 void Stworz();
 int Sprawdz();
+int Procentowe();
 
 // -------------------------------
 /*
