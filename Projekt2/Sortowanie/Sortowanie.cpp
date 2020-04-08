@@ -4,8 +4,6 @@
 #include <algorithm>
 #include <cmath>
 
-extern const int N = 10;
-extern const int percent = 1000;
 /*
 	Plik Sortowanie.cpp
 
@@ -14,6 +12,13 @@ extern const int percent = 1000;
 
 */
 
+
+// ZMIENNE GLOBALNE
+extern const int ilosc = 1;
+extern const int N = 100;
+extern const int percent = 1000;
+
+// TABLICE
 int tab[N];		// glowna tablica
 int pom[N];		// tablica pomocnicza
 
@@ -26,6 +31,7 @@ int pom[N];		// tablica pomocnicza
 */
 
 
+// Algorytm 
 void Merge(int leftIndex, int middleIndex, int rightIndex)	// laczenie tablic
 {
 	int p1 = leftIndex;		  // pointer1 - wskazuje na poczatek pierwszej tablicy
@@ -54,6 +60,7 @@ void Merge(int leftIndex, int middleIndex, int rightIndex)	// laczenie tablic
 	}
 }
 
+// Sortowanie przez scalanie
 int MergeSort(int leftIndex, int rightIndex)
 {
 	
@@ -70,6 +77,7 @@ int MergeSort(int leftIndex, int rightIndex)
 	if (rightIndex >= leftIndex) return 1;			// je¿eli jest tylko jeden element, badz mniej
 }
 
+
 /*
 -----------------------------------
 	@@@|==================|@@@
@@ -78,42 +86,10 @@ int MergeSort(int leftIndex, int rightIndex)
 -----------------------------------
 */
 
+/*
 
-// Quick v2 do sprawdzenia
-
-int Quickv2(int leftIndex, int rightIndex) 
-{
-	// Dzielenie
-	int pivot = tab[rightIndex];
-	int i = leftIndex - 1;
-
-	for (int j = leftIndex; j <= rightIndex; j++)
-	{
-		if (tab[j] < pivot)
-		{
-			i++;
-			std::swap(tab[i], tab[j]);
-		}
-	}
-	std::swap(tab[i + 1], tab[rightIndex]);
-	return (i+1);
-}
-	
-int QuickSortv2(int leftIndex, int rightIndex)
-{
-	// Wywo³anie
-	if (leftIndex < rightIndex) {
-		int q = Quickv2(leftIndex, rightIndex);
-		QuickSortv2(leftIndex, q - 1);
-		QuickSortv2(q + 1, rightIndex);
-	}
-	return 0;
-
-}
-
-//	Quick v1
-int QuickSortv1(int leftIndex, int rightIndex)
-{
+ //	Quick v1
+ int QuickSortv1(int leftIndex, int rightIndex){
 	// Dzielenie
 
 	int pivot = tab[rightIndex];	// element wybrany, ktory bedzie porownywany
@@ -147,48 +123,83 @@ int QuickSortv1(int leftIndex, int rightIndex)
 
 }
 
+*/
 
-// najszybszy quicksort
+// Quick v2 
+int Quickv2(int leftIndex, int rightIndex) 
+{
+	// Dzielenie
+	int pivot = tab[rightIndex];					// za pivot przyjmujemy ostatni element
+	int i = leftIndex - 1;
+
+	for (int j = leftIndex; j <= rightIndex; j++)	// dopoki jest tablica
+	{
+		if (tab[j] < pivot)							// jezeli ostatni element jest wiekszy od elementu tablicy
+		{											// nastepuje inkrementacja i zamiana wartosci
+			i++;
+			std::swap(tab[i], tab[j]);				// zamiana
+		}
+
+	}									
+													// po wyjsciu z petli, czyli jezeli tablica sie skonczyla
+	std::swap(tab[i + 1], tab[rightIndex]);			// nastepuje zamiana nastepnego elementu z ostatnim
+	return (i + 1);									// zwracana jest kolejna wartoœæ
+}
+
+int QuickSortv2(int leftIndex, int rightIndex)
+{
+	// Wywo³anie
+	if (leftIndex < rightIndex) {			// jezeli tablica istnieje, to znaczy sa elementy
+		int iq = Quickv2(leftIndex, rightIndex); // dzieli tablice 
+		QuickSortv2(leftIndex, iq - 1);		// wywolanie dla lewych podtablic
+		QuickSortv2(iq + 1, rightIndex);	// wywolanie dla prawych podtablic
+	}
+	return 0;
+}
+
+// Quick v3
 void QuickSortv3(int leftIndex, int rightIndex) {
 
-	if (rightIndex <= leftIndex)
+	if (rightIndex <= leftIndex)				// jezeli koniec tablicy
 		return;
+											// wskazniki
+	int i = leftIndex - 1;						// i - zmienna oznaczajaca poczatek - 1 
+	int j = rightIndex + 1;						// j - zmienna oznaczajaca koniec +1
 
-	int i = leftIndex - 1;
-	int j = rightIndex + 1;
+	int pivot = tab[(leftIndex + rightIndex) / 2];	// pivot - tutaj jako srodkowa wartosc
 
-	int pivot = tab[(leftIndex + rightIndex) / 2];
+	while (true) {							// nieskonczona petla (do break)
+		while (pivot < tab[--j]);			// gdy ostatni elementn i schodzaca w dol sa wieksze, to zostaja
+		while (pivot > tab[++i]);			// gdy pierwszy i kolejne elmenty sa mniejsze od pivota to zostaja
 
-	while (true) {
-		while (pivot < tab[--j]);
-		while (pivot > tab[++i]);
-
-		if (i <= j) {
-			std::swap(tab[i], tab[j]);
+		if (i <= j) {						// jezeli nie jest to ten sam element, albo wskazniki sie nie mina
+			std::swap(tab[i], tab[j]);		// to zamien liczby
 		}
-		else
+		else								// Jezeli sie minely, to wychodzi z petli
 			break;
 	}
 
-	if ( j > leftIndex )
-		QuickSortv3(leftIndex, j);
+	if ( j > leftIndex )					// jezeli wskaznik jest wiekszy od pierwszego lewego elementu
+		QuickSortv3(leftIndex, j);			// sortowanie lewej podtablicy
 
-	if( i < rightIndex )
-		QuickSortv3(i, rightIndex);
+	if( i < rightIndex )					// jezeli wskaznik jest mniejszy od ostatniego elementu (prawego)
+		QuickSortv3(i, rightIndex);			// sortowanie prawej podtablicy
 
 }
+
 /*
-======================
-		 HEAP
-======================
+-----------------------------------
+	@@@|==================|@@@
+			HEAP SORT
+	@@@|==================|@@@
+-----------------------------------
 */
 
-/* ====================
-		   V1
-   ===================*/
+// >>>> V1 <<<<
 
-void Heap(int begin, int end, int mov)		// tablica, poczatek, koniec, przesuniecie
-{
+/*
+ // void Heap(int begin, int end, int mov)	// tablica, poczatek, koniec, przesuniecie
+ {
 	int j = begin;					// przechowuje korzen
 	int left = 2 * j + 1 - mov;		// index lewego dziecka, mov cofa polozenie 
 	int right = 2 * j + 2 - mov;	// index prawego dziecka
@@ -212,11 +223,9 @@ void Heap(int begin, int end, int mov)		// tablica, poczatek, koniec, przesuniec
 
 		Heap(j, end, j);			// czy rodzic jest w odpowiedniej pozycji po zamianie?
 	}
-
-
 }
 
-void HeapSort(int begin, int end)
+ void HeapSort(int begin, int end)
 {
 	// budowanie kopca
 	int elements = (end - begin);	// liczba elementow
@@ -232,10 +241,10 @@ void HeapSort(int begin, int end)
 		Heap(begin, end, begin);
 	}
 }
+*/
 
-/* ====================
-	       V2
-   ===================*/
+// >>>> V2 <<<<
+// Tworzenie kopca
 
 void Heapv2(int* tab,int size, int parentindex)
 {
@@ -254,161 +263,120 @@ void Heapv2(int* tab,int size, int parentindex)
 			index_max = right;								 // zamiana
 	}	
 
-	if (index_max != parentindex) {		  // jesli indeks maksymalny jest rozny od indeksu rodzica 
-		std::swap(tab[parentindex], tab[index_max]); // zamiana indeksow
+	if (index_max != parentindex) {			// jesli indeks maksymalny jest rozny od indeksu rodzica 
+		std::swap(tab[parentindex], tab[index_max]); // zamiana 
 
 		Heapv2(tab ,size , index_max);		// czy rodzic jest w odpowiedniej pozycji po zamianie?
-	}
-										// sprawdzenie czy nie zostal zaburzony kopiec
+	}										// sprawdzenie czy nie zostal zaburzony kopiec
+										
 }
 
+
+// Sortowanie przez kopcowanie
 void HeapSortv2(int leftIndex, int rightIndex){
-	++rightIndex;
+	++rightIndex;											// zwiekszanie kolejnego miejsca
 
-	int* temp = new int[(rightIndex - leftIndex)];
+	int* temp = new int[(rightIndex - leftIndex)];			// tablica dynamiczna -> size/l. elementow
 
-	for (int i = 0; i < (rightIndex - leftIndex); i++) {
-		temp[i] = tab[i + leftIndex];
+	for (int i = 0; i < (rightIndex - leftIndex); i++) {	// wpisanie do tablicy dynamicznej
+		temp[i] = tab[i + leftIndex];						
 	}
 
-	for (int i = (rightIndex - leftIndex) / 2 - 1; i >= 0; --i) {
-		Heapv2(temp, (rightIndex - leftIndex), i);
+	for (int i = (rightIndex - leftIndex) / 2 - 1; i >= 0; --i) { // przejscie calej tablicy
+		Heapv2(temp, (rightIndex - leftIndex), i);			// wywolanie rekurencji, przywrocenie kopca
 	}
 
-	for (int i = (rightIndex - leftIndex) - 1; i >= 0; --i) {
-		std::swap(temp[0],temp[i]);
-		Heapv2(temp, i, 0);
+	for (int i = (rightIndex - leftIndex) - 1; i >= 0; --i) {	// przejscie 
+		std::swap(temp[0],temp[i]);						// Zamiana korzenia z ostatnim elementem (maksymalny)
+		Heapv2(temp, i, 0);								// przywrocenie wlasnosci kopca
 	}
-	for (int i = 0; i < (rightIndex - leftIndex); i++) {
+	for (int i = 0; i < (rightIndex - leftIndex); i++) {	// przepisanie z tablicy dynamicznej
 		tab[i + leftIndex] = temp[i];
 	}
 
-	delete[] temp;
+	delete[] temp;										// usuniecie tablicy dynamicznej
 }
 
-/*=========================
-	    INSERTION
-==========================*/
+/*
+-----------------------------------
+	@@@|==================|@@@
+			INTRO SORT
+	@@@|==================|@@@
+-----------------------------------
+*/
 
-/* ====================
-		   V1
-   ===================*/
-
+//  Wstawianie
 void Insertion(int leftIndex, int rightIndex)
 {
-	rightIndex++;
+	rightIndex++;							// zwiekszenie indeksu
 
-	int i = leftIndex;
-	while(i < rightIndex){
+	int i = leftIndex;						// zmienna pomocnicza / poczatek tablicy
+	while(i < rightIndex){					// dopoki nie dojdzie do konca tablicy
 		int j = i;
-		while (j > 0 && tab[j - 1] > tab[j]) {
-			std::swap(tab[j], tab[j - 1]);
+		while (j > 0 && tab[j - 1] > tab[j]) {	// dopoki indeks jest wiekszy od 0 i element poprzedni jest wiekszy od nastepnego
+			std::swap(tab[j], tab[j - 1]);		// wystepuje zamiana elementow tablic
 			--j;
 		}
 		++i;
 	}
 }
 
+// Partycjonowanie / dzielenie
 int InsertPart(int leftIndex, int rightIndex)
 {
-	int pivot = tab[(leftIndex + rightIndex) / 2];
+	int pivot = tab[(leftIndex + rightIndex) / 2];		// wartosc srodkowa tablicy / pivot
+										// wskazniki
+	int i = leftIndex-1;					// i - zmienna oznaczajaca poczatek - 1 
+	int j = rightIndex + 1;					// // j - zmienna oznaczajaca koniec +1
 
-	int i = leftIndex-1;
-	int j = rightIndex + 1;
+	while(1) {						// nieskonczona petla
+		do ++i;							// zwiekszanie indeksu
+		while (tab[i] < pivot);			// dopoki wartosc srednia jest wieksza od lewej wartosci
 
-	while(1) {
-		do ++i;
-		while (tab[i] < pivot);
+		do --j;							// zmniejszanie indeksu
+		while (tab[j] > pivot);			// dopoki wartosc srednia jest mniejsza od prawej wartosci 
 
-		do --j;
-		while (tab[j] > pivot);
+		if (i >= j) return j;		// jezeli ineks lewy jest >= od prawego, to zwracany jest koniec (prawy)
 
-		if (i >= j) return j;
-
-		std::swap(tab[i], tab[j]);
+		std::swap(tab[i], tab[j]);		// zamiana elementow tablic
 	}
 }
 
+
+/*
+-----------------------------------
+	@@@|==================|@@@
+			HYBRID SORT
+	@@@|==================|@@@
+-----------------------------------
+*/
+
+// Sortowanie Intro
 void IntroSort(int leftIndex,int rightIndex, int max)
 {
-	int size = rightIndex - leftIndex + 1;
+	int size = rightIndex - leftIndex + 1;			// wielkosc tablicy / podtablicy (size)
 
-	if ( size <= 20) {
-		Insertion(leftIndex,rightIndex);
+	if ( size <= 20) {								// jezel wartosc ta bedzie mniejsza niz 20
+		Insertion(leftIndex,rightIndex);			// wywolana jest sortowanie inser ( szybka dla malych liczb )
 	}
 
-	else if (max == 0) {	
-		HeapSortv2(leftIndex,rightIndex);
+	else if (max == 0) {							// jezeli glebokosc tego sortowania jest rowna 0
+		HeapSortv2(leftIndex,rightIndex);			// nastepuje wywolanie sortowanie przez kopcowanie
 	}
-	else if (leftIndex < rightIndex) {
+	else if (leftIndex < rightIndex) {				// jezeli prawy indeks jest wiekszy niz lewo
 
 		int ip = InsertPart(leftIndex, rightIndex);
-		IntroSort(leftIndex, ip, --max);
-		IntroSort(ip + 1, rightIndex, --max);
+		IntroSort(leftIndex, ip, --max);			// wywolanie sortowania dla lewej podtablicy
+		IntroSort(ip + 1, rightIndex, --max);		// wywolanie sortowanie dla prawej podtablicy
 	}
 
 }
 
-
+// Wywo³anie funkcji
 void HybridSort(int leftIndex, int rightIndex)
 {
-	int max = (int) log(rightIndex - leftIndex + 1)*2;
+	int max = (int) log(rightIndex - leftIndex + 1)*2;	// 2 log  ... ustalona wartosc, glebokosc
 	IntroSort(leftIndex, rightIndex, max);
-
-}
-
-/*=========================
-            V2
-==========================*/
-
-int InsertMedian(int leftIndex, int rightIndex) 
-{
-	int middleIndex = (leftIndex + rightIndex) / 2;
-
-	if ((tab[leftIndex] < tab[rightIndex] && tab[rightIndex] < tab[middleIndex]) ||
-		(tab[middleIndex] <= tab[rightIndex] && tab[rightIndex] <= tab[leftIndex]))
-		return(rightIndex);
-
-	if ((tab[leftIndex] < tab[middleIndex] && tab[middleIndex] <= tab[rightIndex]) ||
-		(tab[rightIndex] < tab[middleIndex] && tab[middleIndex] <= tab[leftIndex]))
-		return(middleIndex);
-
-
-	if ((tab[middleIndex] <= tab[leftIndex] && tab[leftIndex] < tab[rightIndex]) ||
-		(tab[rightIndex] <= tab[leftIndex] && tab[leftIndex] < tab[middleIndex]))
-		return(leftIndex);
-	
-	return 0;
-}
-void IntroSortv2(int leftIndex, int rightIndex, int max)
-{
-	if (leftIndex > rightIndex)
-		return;
-
-	if (max == 0)
-	{
-		HeapSort(leftIndex, rightIndex);
-		return;
-	}
-
-	// Partition
-	int b = leftIndex;			// begin - pierwszy element tablicy
-	int e = rightIndex;			// end - ostatni element tablicy
-
-	int pivot = InsertMedian(leftIndex, rightIndex);	// pivot - srodkowy element
-
-
-	if (tab[b] < tab[pivot]) b++;
-	if (tab[e] < tab[pivot]) e--;
-
-	std::swap(tab[b++], tab[e++]);
-
-	//std::swap(tab[b++], tab[e++]);
-
-	//Quick(leftIndex,rightIndex);
-	IntroSortv2(leftIndex, e - 1, max - 1);
-	IntroSortv2(b + 1, rightIndex, max - 1);
-
 }
 
 
@@ -435,13 +403,14 @@ void Wyswietl()
 	}
 }
 
-// Warunek czy sortowanie dziala dobrze
+// Oblicza ile % tablicy jest sortowanych 
 int Procentowe() {
 	int lperc = (N * percent) / 1000;
 
 	return lperc;
 }
 
+// Sprawdza czy tablica zostala posortowana prawidlowo
 int Sprawdz()
 {
 	int lperc = (N * percent) / 1000;
@@ -455,7 +424,22 @@ int Sprawdz()
 	return 0;
 }
 
+// Odwraca tablice
 void Odwroc() {
 
-		std::reverse(std::begin(tab), std::end(tab));
+	std::reverse(std::begin(tab), std::end(tab));
+}
+
+// Sprawdza czy sortowanie po obrocie przebieglo prawidlowo
+int SprawdzOdwrot()
+{
+	int lperc = (N * percent) / 1000;
+
+	for (int i = 0; i < lperc; i++) {
+		if (i != 0 && tab[i] > tab[i - 1]) {
+			std::cout << "\n\n >>>> BLAD W ODWRACANIU <<<< \n";
+			return 1;
+		}
+	}
+	return 0;
 }

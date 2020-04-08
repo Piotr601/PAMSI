@@ -2,72 +2,120 @@
 
 #include <iostream>
 #include <cstdlib>
-
+#include <fstream>
 
 #include <time.h>
 #include <ctime>
 
-
-extern const int N;
-
 using namespace std;
-    /*
-    ==================
-	       MAIN
-    ==================
-    */
 
+// zmienne globalne
+extern const int N;             // wielkosc tablicy
+extern const int percent;       // procent posortowania tablicy
+extern const int ilosc;         // zmienna okreslajaca ile razy ma wykonac petla [FOR]
+
+/*
+ ==================
+        MAIN
+ ==================
+ */
 
 int main()
 {
+   std::fstream plik;
+
+   // losowosc tablicy
    srand(time(NULL));
-   double timemerge=0, timemerge1=0;
+
+   // mierzenie czasu
+   double tm=0, tq=0, tq2=0, ti = 0;
    time_t start, stop;
 
-    int ilosc = 1;
+   // Procentowa wartosc tablicy
     int K = Procentowe() - 1;
 
     for (int i = 0; i < ilosc; i++) {
-
+    
+      // MergeSort
         Stworz();
-        cout << "\n\nPrzed: \n";  Wyswietl();
+            //MergeSort(0, K);
+            //Odwroc();
+            //SprawdzOdwrot();
 
         start = clock();
+        MergeSort(0, K);
+        stop = clock();
+        Sprawdz();
+        //Wyswietl();
+        tm += (double_t)(stop - start) / CLOCKS_PER_SEC;
+      
 
-        //MergeSort(0, N-1);
-        //QuickSortv2(0, N-1);
-            
+       
+      // QuickSort
+        Stworz();
+           //MergeSort(0, K);
+           //Odwroc();
+           //SprawdzOdwrot();
+
+        start = clock();    
+        QuickSortv2(0, K);
+        stop = clock();
+        Sprawdz();
+        //Wyswietl();
+        tq += (double_t)(stop - start) / CLOCKS_PER_SEC;
+        
+
+        
+      // QuickSortv2
+        Stworz();
+            //MergeSort(0, K);
+            //Odwroc();
+            //SprawdzOdwrot();
+
+        start = clock();
         QuickSortv3(0, K);
- 
-        //HeapSortv2(0,N-1);
-        //Insertion(0,N-1);
-        //HybridSort(0,N-1);
-
         stop = clock();
         Sprawdz();
-        timemerge += (double_t)(stop - start) / CLOCKS_PER_SEC;
+        //Wyswietl();
+        tq2 += (double_t)(stop - start) / CLOCKS_PER_SEC;
 
-        cout << "\nPo: \n"; Wyswietl();
+      // Introsort
+        Stworz(); 
+            //MergeSort(0, K);
+            //Odwroc();
+            //SprawdzOdwrot();
 
-        Odwroc();
-        cout << "\nPo odwroceniu: \n"; Wyswietl();
-
-    /*
-        Stworz();
-       cout << "Przed: \n";  Wyswietl();
         start = clock();
-        //MergeSort(0, N-1);
-        QuickSortv1(0, N);
+        HybridSort(0,K);
         stop = clock();
         Sprawdz();
-        timemerge1 += (double_t)(stop - start) / CLOCKS_PER_SEC;
-        @@@@@*/
-
+        //Wyswietl();
+        ti += (double_t)(stop - start) / CLOCKS_PER_SEC;
+        
     }
+
+
+    // wyswietlanie parametrow i czasow
+        cout << "Wielkosc tablicy: " << N << "\n";
+        cout << "Procent sortowania: " << (float)percent / 10 << "\n\n";
+        cout << "Mergesort: " << tm / ilosc << "\n";
+        cout << "Quicksort: " << tq / ilosc << "\n";
+        cout << "Quicksortv2: " << tq2 / ilosc << "\n";
+        cout << "Introsort: " << ti / ilosc << "\n";
   
 
-    //cout << "\n\nSuma: " << timemerge << endl;
-    cout << "\nCzas to: " << timemerge/ilosc << endl;
-    //cout << "\nCzas to: " << timemerge1 / ilosc << endl;
+    // zapis parametrow i czasow do pliku
+    // by latwiej mozna bylo skopiowac dane
+     plik.open("Sortowanie.txt", std::ios::out);
+        if (plik.good() == true) {
+            plik << "Wielkosc tablicy: " << N << "\n";
+            plik << "Procent sortowania: " << (float)percent / 10 << "\n\n";
+            plik << "Mergesort: " << "\n" << tm/ilosc << "\n";
+            plik << "Quicksort: " << "\n" << tq/ilosc << "\n";
+            plik << "Quicksortv2: "<< "\n" << tq2/ilosc << "\n";
+            plik << "Introsort: "<< "\n" << ti/ilosc << "\n";
+
+            plik.close();
+        }
 
 }

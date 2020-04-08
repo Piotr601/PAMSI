@@ -1,0 +1,11 @@
+Wielkosc tablicy: 100
+Procent sortowania: 99
+
+Mergesort: 
+0
+Quicksort: 
+0
+Quicksortv2: 
+0
+Introsort: 
+0
