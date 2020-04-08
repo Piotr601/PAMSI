@@ -14,7 +14,8 @@
 
 
 // ZMIENNE GLOBALNE
-extern const int ilosc = 1;
+extern const int ilosc = 50;
+extern const int obrot = 0;
 extern const int N = 100;
 extern const int percent = 1000;
 

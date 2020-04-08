@@ -1,11 +1,11 @@
-Wielkosc tablicy: 100
-Procent sortowania: 99
+Wielkosc tablicy: 1000000
+Procent sortowania: 100
 
 Mergesort: 
-0
+0.22056
 Quicksort: 
 0
 Quicksortv2: 
-0
+0.39962
 Introsort: 
-0
+0.2701
