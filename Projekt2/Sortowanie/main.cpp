@@ -12,7 +12,7 @@ using namespace std;
 // zmienne globalne
 extern const int N;             // wielkosc tablicy
 extern const int percent;       // procent posortowania tablicy
-extern const int ilosc;         // zmienna okreslajaca ile razy ma wykonac petla [FOR]
+extern const int ilosc;         /// zmienna okreslajaca ile razy ma wykonac petla [FOR]
 
 /*
  ==================
