@@ -403,7 +403,7 @@ void Wyswietl()
 	}
 }
 
-// Oblicza ile % tablicy jest sortowanych 
+// Oblicza ile procent tablicy jest sortowanych 
 int Procentowe() {
 	int lperc = (N * percent) / 1000;
 

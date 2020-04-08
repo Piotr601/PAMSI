@@ -32,7 +32,7 @@ int SprawdzOdwrot();
 // Sprawdza czy sortowanie przebieglo prawidlowo
 int Sprawdz();
 
-// Oblicza ile % tablicy jest sortowanych
+// Oblicza ile procent tablicy jest sortowanych
 int Procentowe();
 
 // -------------------------------

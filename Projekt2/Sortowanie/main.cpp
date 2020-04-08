@@ -89,11 +89,10 @@ int main()
         HybridSort(0,K);
         stop = clock();
         Sprawdz();
-        //Wyswietl();
+        // Wyswietl();
         ti += (double_t)(stop - start) / CLOCKS_PER_SEC;
         
     }
-
 
     // wyswietlanie parametrow i czasow
         cout << "Wielkosc tablicy: " << N << "\n";
