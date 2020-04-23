@@ -14,7 +14,7 @@
 
 
 // ZMIENNE GLOBALNE
-extern const int ilosc = 50;
+extern const int ilosc = 1;
 extern const int obrot = 0;
 extern const int N = 100;
 extern const int percent = 1000;
@@ -291,6 +291,7 @@ void HeapSortv2(int leftIndex, int rightIndex){
 		std::swap(temp[0],temp[i]);						// Zamiana korzenia z ostatnim elementem (maksymalny)
 		Heapv2(temp, i, 0);								// przywrocenie wlasnosci kopca
 	}
+
 	for (int i = 0; i < (rightIndex - leftIndex); i++) {	// przepisanie z tablicy dynamicznej
 		tab[i + leftIndex] = temp[i];
 	}

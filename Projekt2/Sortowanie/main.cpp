@@ -38,15 +38,15 @@ int main()
     for (int i = 0; i < ilosc; i++) {
     
       // MergeSort
-        //cout << "\nMergeSort\n";
+        cout << "\n\nMergeSort\n";
 
         Stworz();
-        //cout << "\n\nStworz: \n"; Wyswietl();
+        cout << "\nStworz: \n"; Wyswietl();
 
         // sortowanie procentowe tablicy
         if (obrot==1 || percent != 0 && percent != 1000) {
             MergeSort(0, K);
-        //cout << "\n\nSort. procen.: \n"; Wyswietl();
+        cout << "\n\nSort. procen.: \n"; Wyswietl();
         }
         
         // Odwrocenie i sprawdzenie
@@ -56,92 +56,101 @@ int main()
             SprawdzOdwrot();
         }
 
+        // SORTOWANIE
         start = clock();
         MergeSort(0, N-1);
         stop = clock();
 
         if(obrot == 0 || obrot == 1) Sprawdz();
-        //cout << "\n\nPo sortowaniu: \n"; Wyswietl();
+        cout << "\n\nPo sortowaniu: \n"; Wyswietl();
         tm += (double_t)(stop - start) / CLOCKS_PER_SEC;
       
 
       // QuickSort
-      // cout << "\nQuickSort\n";
+        cout << "\n\nQuickSort\n";
         Stworz();
-        //cout << "\n\nStworz: \n"; Wyswietl();
+        cout << "\nStworz: \n"; Wyswietl();
 
         // sortowanie procentowe tablicy
         if (obrot == 1 || percent != 0 && percent != 1000) {
             MergeSort(0, K);
-            // cout << "\n\nSort. procen.: \n"; Wyswietl();
+             cout << "\n\nSort. procen.: \n"; Wyswietl();
         }
 
+        // odwracanie i sprawdzanie 
         if (obrot == 1) {
             Odwroc();
             SprawdzOdwrot();
         }
 
+        // SORTOWANIE
         start = clock();    
         QuickSortv2(0, N-1);
         stop = clock();
 
         if (obrot == 0 || obrot == 1) Sprawdz();
-        //cout << "\n\nPo sortowaniu: \n"; Wyswietl();
+        cout << "\n\nPo sortowaniu: \n"; Wyswietl();
         tq += (double_t)(stop - start) / CLOCKS_PER_SEC;
         
        
         
       // QuickSortv2
-      // cout << "\nQuickSortv2\n";
+        cout << "\n\nQuickSortv2\n";
         Stworz();
-        // cout << "\n\nStworz: \n"; Wyswietl();
+         cout << "\nStworz: \n"; Wyswietl();
 
         // sortowanie procentowe tablicy
         if (obrot == 1 || percent != 0 && percent != 1000) {
             MergeSort(0, K);
-            // cout << "\n\nSort. procen.: \n"; Wyswietl();
+             cout << "\n\nSort. procen.: \n"; Wyswietl();
         }
-        
+
+        // odwracanie i sprawdzanie 
         if (obrot == 1) {
             Odwroc();
             SprawdzOdwrot();
         }
            
+        // SORTOWANIE
         start = clock();
         QuickSortv3(0, N - 1);
         stop = clock();
 
         if (obrot == 0 || obrot == 1) Sprawdz();
-        //cout << "\n\nPo sortowaniu: \n"; Wyswietl();
+        cout << "\n\nPo sortowaniu: \n"; Wyswietl();
         tq2 += (double_t)(stop - start) / CLOCKS_PER_SEC;
 
+
+
       // Introsort
-      // cout << "\nIntroSort\n";
+        cout << "\n\nIntroSort\n";
         Stworz(); 
-        //cout << "\n\nStworz: \n"; Wyswietl();
+        cout << "\nStworz: \n"; Wyswietl();
 
         if (obrot == 1 || percent != 0 && percent != 1000) {
             MergeSort(0, K);
-          //  cout << "\n\nSort. procen.: \n"; Wyswietl();
+            cout << "\n\nSort. procen.: \n"; Wyswietl();
         }
-        
+
+        // odwracanie i sprawdzanie 
         if (obrot == 1) {
             Odwroc();
             SprawdzOdwrot();
         }
-
+        
+        // SORTOWANIE
         start = clock();
         HybridSort(0, N - 1);
         stop = clock();
 
         if (obrot == 0 || obrot == 1) Sprawdz();
-        //cout << "\n\nPo sortowaniu: \n"; Wyswietl();
+        cout << "\n\nPo sortowaniu: \n"; Wyswietl();
         ti += (double_t)(stop - start) / CLOCKS_PER_SEC;
         
     }
 
     // wyswietlanie parametrow i czasow
-        cout << "\nWielkosc tablicy: " << N << "\n";
+        cout << "\n\nWielkosc tablicy: " << N << "\n";
         cout << "Procent sortowania: " << (float)percent / 10 << "\n\n";
         cout << "Mergesort: " << tm / ilosc << "\n";
         cout << "Quicksort: " << tq / ilosc << "\n";
