@@ -45,7 +45,7 @@ class Graf
     
     Lista_Sasiedztwa** head;  // wskaznik na liste sasiedztwa
 
-    Graf(Krawedz krawedz[], int l_krawedzi, int l_wierzcholkow)                  // konstruktor grafu
+    Graf(Krawedz* krawedz, int l_krawedzi, int l_wierzcholkow)                  // konstruktor grafu
     {
         Inicjuj(l_wierzcholkow);
 
@@ -66,7 +66,7 @@ class Graf
         for (int i = 0; i < l_wierzcholkow; i++) {
             delete[] head[i];                      // Zwalnianie pamieci
         }
-
+        delete[] head;
     }
     
     // Funkcje
@@ -94,60 +94,48 @@ class Graf
     }
 };
 
-
 int main()
 {
     int a[MAX], b[MAX], c[MAX];
-    int l_krawedzi = 0; 
-    int l_wierzcholkow = 0; 
-    int pkt_start = 0;
+    int l_krawedzi;
+    int l_wierzcholkow;
+    int pkt_start;
+    int i = 0;
+
     std::fstream plik;
 
     plik.open("g1.txt", std::ios::in);
-        if (plik.good() == false) {
-            cout << "\n Plik nie istnieje!!!" << endl;
-            exit(1);
-        }
-        if (plik.good() == true) {
-            cout << "Dane z pliku: \n";
-            int i = 0;
-            while (!plik.eof())
-            {   
+    if (plik.good() == false) {
+        cout << "\n Plik nie istnieje!!!" << endl;
+        exit(1);
+    }
+    if (plik.good() == true) {
+        cout << "Dane z pliku: \n";
 
-                if (i == 0)
-                {
-                    plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
-                    cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
-                }
 
-                plik >> a[i] >> b[i] >> c[i];
-                cout << a[i] << " " << b[i] << " " << c[i] << endl;
+        plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
+        cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
 
-                i++;
-            }
-            plik.close();
-        }
+        while (!plik.eof())
+            plik >> a[i] >> b[i] >> c[i];
+            cout << a[i] << " " << b[i] << " " << c[i] << endl;
+
+        Krawedz krawedz = { a[i], b[i], c[i] };
+
+        i++;
+
 
     
-     //   cout << "\nLURWA \n";
-   /* Krawedz krawedz;
+        plik.close();
+    }
+        Lista_Sasiedztwa* kappa;
+        Graf g(kappa,l_krawedzi,l_wierzcholkow);
 
-    for (int i = 0; i < l_wierzcholkow; i++) {
-        krawedz[i][1] = a[i];
-        krawedz[i][2] = b[i];
-        krawedz[i][3] = c[i];
-    }*/
+        for (int i = 0; i < l_wierzcholkow; i++)
+                g.Wyswietl(g.head[i], i);
+      
 
-    Krawedz krawedz[MAX] =
-     {
-        { 0, 1, 6 }, { 1, 2, 7 }, { 2, 0, 5 }, { 2, 1, 4 },
-        { 3, 2, 10 }, { 4, 5, 1 }, { 5, 4, 3 }
-     };
-
-    Graf g(krawedz,l_krawedzi,l_wierzcholkow);
-
-    for(int i=0; i< l_wierzcholkow;i++)
-        g.Wyswietl(g.head[i],i);
+    
 
     return 0;
 }
