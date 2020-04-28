@@ -168,7 +168,7 @@ class Drzewo
 
         Drzewo(int rozmiar) 
         {
-            lista_sasiedztwa = new Lista *[rozmiar];
+            lista_sasiedztwa = new Lista* [rozmiar];
             for (int i = 0; i < rozmiar; i++)
             {
                 lista_sasiedztwa = NULL;
@@ -184,15 +184,21 @@ class Drzewo
 
         void dodaj_krawedz(Krawedz kraw)
         {
-            Lista* Lista1;
-            Lista1 = new Lista;
+            Lista* Lista1;    
 
             waga_drzewa += kraw.waga;
             
+            Lista1 = new Lista;
             Lista1->wierzcholek = kraw.koniec_w;
             Lista1->waga = kraw.waga;
             Lista1->nastepny = lista_sasiedztwa[kraw.poczatek_w];
             lista_sasiedztwa[kraw.poczatek_w] = Lista1;
+
+            Lista1 = new Lista;
+            Lista1->wierzcholek = kraw.poczatek_w;
+            Lista1->waga = kraw.waga;
+            Lista1->nastepny = lista_sasiedztwa[kraw.koniec_w];
+            lista_sasiedztwa[kraw.koniec_w] = Lista1;
 
         }
 
@@ -254,12 +260,11 @@ int main()
             for (int i = 0; i < l_krawedzi; i++)
             {
                 plik >> kraw.poczatek_w >> kraw.koniec_w >> kraw.waga;
-               // cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
+                cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
             
                 K.dodaj(kraw);
 
             }
-
         }
         
         for (int i = 1; i < l_wierzcholkow; i++)
