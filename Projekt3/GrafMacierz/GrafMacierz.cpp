@@ -113,39 +113,9 @@ public:
     }
 
     // algorytm prime
-    wierzch* prime(int liczba_wierzcholkow, int pkt_startowy)
+    void prime() 
     {
-        wierzch* dane = new wierzch[liczba_wierzcholkow];
-        dane[pkt_startowy].koszt = 0;
 
-        vector<int> kolejka;
-        for (int i = 0; i < liczba_wierzcholkow; i++) 
-        {
-            kolejka.push_back(i);
-        }
-
-        while (kolejka.size() != 0) 
-        {
-            int index = -1;
-            for (int q : kolejka)
-                if(dane[q].koszt != max_int && (index == -1 || dane[q].koszt < dane[index].koszt))
-                    index = q;
-
-            vector<int>::iterator poz;
-
-            for (int j = 0; j < liczba_wierzcholkow; j++) {
-                if (Macierz[index][j] == 0)
-                    continue;
-                poz = find(kolejka.begin(), kolejka.end(), j);
-                if (poz != kolejka.end() && dane[j].koszt > Macierz[index][j]) {
-                    dane[j].koszt = Macierz[index][j];
-                    dane[j].poprzedni = index;
-                }
-            }
-            poz = find(kolejka.begin(), kolejka.end(), index);
-            kolejka.erase(poz, poz + 1);
-        }
-        return dane;
     }
 
 
@@ -318,8 +288,6 @@ public:
      
         delete [] kraw;
     }
-
-
 };
 
 
@@ -341,31 +309,27 @@ int main() {
         plik >> ilosc_wierzcholkow >> liczba_krawedzi >> pkt_startowy;
         //cout << ilosc_wierzcholkow << " " << liczba_krawedzi << " " << pkt_startowy << endl;
             
-
         Graf graf(ilosc_wierzcholkow);
 
         while (!plik.eof())
         {
-
             plik >> a >> b >> waga;
            // cout << a << " " << b << " " << waga << endl;
 
-            graf.dodaj_krawedz(a, b, waga);
-            
+            graf.dodaj_krawedz(a, b, waga);  
+
         }
         plik.close();
-
-        
-        //graf.usun_krawedz(0, 8);
+        graf.dodaj_krawedz(0, 1, 10);
+        graf.usun_krawedz(0, 8);
 
         //graf.ZamienWagi(0,1,1,2);
         //graf.sprawdzanie_krawedzi(1, 0);
         int suma = 0;
-        //graf.Wyswietl();
-
+        graf.Wyswietl();
       
 
-        //graf.kruskal();
+        graf.kruskal();
     }
 
     return 0;
