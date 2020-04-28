@@ -38,11 +38,11 @@ class Graf
         return Lista;
     }
 
-  public:
-
     int l_wierzcholkow;     // liczba wierzcholkow
     int l_krawedzi;         // liczba krawedzi
-    
+
+  public:
+
     Lista_Sasiedztwa** head;  // wskaznik na liste sasiedztwa
 
     Graf(Krawedz* krawedz, int l_krawedzi, int l_wierzcholkow)                  // konstruktor grafu
@@ -104,7 +104,7 @@ int main()
 
     std::fstream plik;
 
-    plik.open("g1.txt", std::ios::in);
+    plik.open("Dane.txt", std::ios::in);
     if (plik.good() == false) {
         cout << "\n Plik nie istnieje!!!" << endl;
         exit(1);
@@ -120,16 +120,15 @@ int main()
             plik >> a[i] >> b[i] >> c[i];
             cout << a[i] << " " << b[i] << " " << c[i] << endl;
 
-        Krawedz krawedz = { a[i], b[i], c[i] };
+            Krawedz krawedz = { {1,2,3}, {2,3,4} };
 
         i++;
 
 
     
         plik.close();
+        Graf g(krawedz,l_krawedzi,l_wierzcholkow);
     }
-        Lista_Sasiedztwa* kappa;
-        Graf g(kappa,l_krawedzi,l_wierzcholkow);
 
         for (int i = 0; i < l_wierzcholkow; i++)
                 g.Wyswietl(g.head[i], i);
