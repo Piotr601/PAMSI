@@ -240,13 +240,13 @@ int main()
             Kolejka K(l_krawedzi);
             Drzewo G(l_krawedzi);
             Drzewo D(l_wierzcholkow);
-            int* odwiedzony = new int[l_wierzcholkow];
+            int* wierzcholki_odwiedzone = new int[l_wierzcholkow];
 
             // tablica odwiedzin
             for (int i = 0; i <= l_wierzcholkow; i++)
             {
-                odwiedzony[i] = 0;
-                if (i == l_wierzcholkow) odwiedzony[pkt_start] = 1;
+                wierzcholki_odwiedzone[i] = 0;
+                if (i == l_wierzcholkow) wierzcholki_odwiedzone[pkt_start] = 1;
             }
 
             // wczytywanie dalszej czesci pliku,
@@ -280,7 +280,7 @@ int main()
                 for (lis = G.poczatek_listy_sasiadow(pkt_start); lis; lis = lis->nastepny)
                 {
                     //jezeli nieodwiedzony == 0 
-                    if (odwiedzony[lis->wierzcholek] == 0)
+                    if (wierzcholki_odwiedzone[lis->wierzcholek] == 0)
                     {
                         kraw.poczatek_w = pkt_start;        // tworzona jest krawedz
                         kraw.koniec_w = lis->wierzcholek;
@@ -292,11 +292,11 @@ int main()
                 do {
                     kraw = K.poczatek();              // pobieranie krawedzi z kolejki
                     K.usun();                         // i nastepnie usuwaie jej
-                } while (odwiedzony[kraw.koniec_w] == 1); // dopoki jest w drzewie
+                } while (wierzcholki_odwiedzone[kraw.koniec_w] == 1); // dopoki jest w drzewie
 
-                D.dodaj_krawedz(kraw);          // dodawanie krawedzi do drzewa
-                odwiedzony[kraw.koniec_w] = 1;  // zmiana wierzcholka na odwiedzony
-                pkt_start = kraw.koniec_w;      // ustalamy nowy punkt startowy
+                D.dodaj_krawedz(kraw);                        // dodawanie krawedzi do drzewa
+                wierzcholki_odwiedzone[kraw.koniec_w] = 1;    // zmiana wierzcholka na odwiedzony
+                pkt_start = kraw.koniec_w;                    // ustalamy nowy punkt startowy
             }
 
             czasStop = clock();
