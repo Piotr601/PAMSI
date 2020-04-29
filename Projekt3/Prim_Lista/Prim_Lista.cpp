@@ -193,97 +193,124 @@ int main()
 {
     // zainicjowanie wczytywanych elementow
     int l_krawedzi;
-    int l_wierzcholkow;
     int pkt_start;
+    double czas = 0;
+    time_t czasStop, czasStart;
 
-    //wczytywanie z pliku
-    std::fstream plik;
+    srand(time(NULL));
 
-    plik.open("Dane.txt", std::ios::in);
-    if (plik.good() == false) 
+    int l_wierzcholkow = 1000;            // ustalona liczba wierzcholkow 50 / 100 / 200 / 500 / 1000
+    int i_powtorzen = 25;                // ilosc powtorzen algorytmu
+    int gestosc = 100;               // gestosc 0,25 / 0.5 / 0.75 / 1.0
+
+    l_krawedzi = (l_wierzcholkow * (l_wierzcholkow - 1) * gestosc) / 200;
+
+    for (int i = 0; i < i_powtorzen; i++)
     {
-        // gdy plik nie istnieje/jest uszkozdony
-        cout << "\n Plik nie istnieje!!!" << endl;
-        exit(1);
-    }
+        pkt_start = rand() % l_wierzcholkow;
 
-    if (plik.good() == true)
-    {   
-        // gdy plik otworzy sie poprawnie
-        cout << "Dane z pliku: \n";
+        //wczytywanie z pliku
+        std::fstream plik;
 
-    ////// ///////// PROGRAM ///////// ////////
-
-        // zczytanie podstawowych wartosci grafu i wypisanie ich
-        // z pliku, jest to pierwsza linijka
-        plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
-        cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
-
-        // zmienna przechowujaca czy dany wierzcholek zostal juz odwiedzony
-        int* odwiedzony = new int[l_wierzcholkow];
-
-        // tworzenie obiektu, kolejki, kopca i drzewa-grafu
-        Krawedz kraw;
-        Lista* lis;
-        Kolejka K(l_krawedzi);
-        Drzewo G(l_krawedzi);
-        Drzewo D(l_wierzcholkow);
-
-        // tablica odwiedzin
-        for (int i = 0; i <= l_wierzcholkow; i++)
+        plik.open("Dane.txt", std::ios::in);
+        if (plik.good() == false) 
         {
-            odwiedzony[i] = 0;
-            if (i == l_wierzcholkow) odwiedzony[pkt_start] = 1;
+            // gdy plik nie istnieje/jest uszkozdony
+            cout << "\n Plik nie istnieje!!!" << endl;
+            exit(1);
         }
 
-        // wczytywanie dalszej czesci pliku,
-        // tyle ile wystepuje pozycji = krawedzi
-        // a nastepnie dodawanie krawedzi w oparciu o dane do kolejki
-
-        for (int i = 0; i < l_krawedzi; i++)
+        if (plik.good() == true)
         {
-                plik >> kraw.poczatek_w >> kraw.koniec_w >> kraw.waga;
-                cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
-                G.dodaj_krawedz(kraw);
-        }
+            // gdy plik otworzy sie poprawnie
+            // cout << "Dane z pliku: \n";
 
-        // @@@ ALGORYTM @@@
-        // MDR graf-drzewo
-        for (int i = 1; i < l_wierzcholkow; i++)
-        {  
-            // lista sasiadow
-            for (lis = G.poczatek_listy_sasiadow(pkt_start); lis; lis = lis->nastepny)
+            ////// ///////// PROGRAM ///////// ////////
+
+                // zczytanie podstawowych wartosci grafu i wypisanie ich
+                // z pliku, jest to pierwsza linijka
+            // plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
+            // cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
+
+            // zmienna przechowujaca czy dany wierzcholek zostal juz odwiedzony
+
+            // tworzenie obiektu, kolejki, kopca i drzewa-grafu
+            Krawedz kraw;
+            Lista* lis;
+            Kolejka K(l_krawedzi);
+            Drzewo G(l_krawedzi);
+            Drzewo D(l_wierzcholkow);
+            int* odwiedzony = new int[l_wierzcholkow];
+
+            // tablica odwiedzin
+            for (int i = 0; i <= l_wierzcholkow; i++)
             {
-                //jezeli nieodwiedzony == 0 
-                if (odwiedzony[lis->wierzcholek]==0)
-                {
-                    kraw.poczatek_w = pkt_start;        // tworzona jest krawedz
-                    kraw.koniec_w = lis->wierzcholek;
-                    kraw.waga = lis->waga;
-                    K.dodaj(kraw);                      // dodawana jest do kolejki
-                }
+                odwiedzony[i] = 0;
+                if (i == l_wierzcholkow) odwiedzony[pkt_start] = 1;
             }
 
-            do {
-                kraw = K.poczatek();              // pobieranie krawedzi z kolejki
-                K.usun();                         // i nastepnie usuwaie jej
-            } while (odwiedzony[kraw.koniec_w] == 1); // dopoki jest w drzewie
+            // wczytywanie dalszej czesci pliku,
+            // tyle ile wystepuje pozycji = krawedzi
+            // a nastepnie dodawanie krawedzi w oparciu o dane do kolejki
 
-            D.dodaj_krawedz(kraw);          // dodawanie krawedzi do drzewa
-            odwiedzony[kraw.koniec_w] = 1;  // zmiana wierzcholka na odwiedzony
-            pkt_start = kraw.koniec_w;      // ustalamy nowy punkt startowy
+            for (int i = 0; i < l_krawedzi; i++)
+            {
+               //plik >> kraw.poczatek_w >> kraw.koniec_w >> kraw.waga;
+               
+                // @@@@ TESTY @@@@
+                kraw.poczatek_w = rand() % l_wierzcholkow;
+                kraw.koniec_w = rand() % l_wierzcholkow;
+                kraw.waga = (rand() % 1000) + 1;
 
+                while (kraw.poczatek_w == kraw.koniec_w) {
+                    kraw.koniec_w = rand() % l_wierzcholkow;
+                }
+               
+               // cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
+                G.dodaj_krawedz(kraw);
+            }
+
+            // @@@ ALGORYTM @@@
+            // MDR graf-drzewo
+            czasStart = clock();
+
+            for (int i = 1; i < l_wierzcholkow; i++)
+            {
+                // lista sasiadow
+                for (lis = G.poczatek_listy_sasiadow(pkt_start); lis; lis = lis->nastepny)
+                {
+                    //jezeli nieodwiedzony == 0 
+                    if (odwiedzony[lis->wierzcholek] == 0)
+                    {
+                        kraw.poczatek_w = pkt_start;        // tworzona jest krawedz
+                        kraw.koniec_w = lis->wierzcholek;
+                        kraw.waga = lis->waga;
+                        K.dodaj(kraw);                      // dodawana jest do kolejki
+                    }
+                }
+
+                do {
+                    kraw = K.poczatek();              // pobieranie krawedzi z kolejki
+                    K.usun();                         // i nastepnie usuwaie jej
+                } while (odwiedzony[kraw.koniec_w] == 1); // dopoki jest w drzewie
+
+                D.dodaj_krawedz(kraw);          // dodawanie krawedzi do drzewa
+                odwiedzony[kraw.koniec_w] = 1;  // zmiana wierzcholka na odwiedzony
+                pkt_start = kraw.koniec_w;      // ustalamy nowy punkt startowy
+            }
+
+            czasStop = clock();
+            czas += (double)(czasStop - czasStart) / CLOCKS_PER_SEC;
+
+            /// KONIEC DZIELANIA NA PLIKU
+            plik.close();
+
+
+           // D.Wyswietl();   // wyswietlenie drzewa-grafu
         }
-
-
-        /// KONIEC DZIELANIA NA PLIKU
-        plik.close();
-
-        D.Wyswietl();   // wyswietlenie drzewa-grafu
-
-        delete[] odwiedzony;    // usuniecie tablicy odwiedzin
-
+        // cout << i << " ";
     }
+    cout << "\nCzas: " << czas / i_powtorzen << endl;
     // KONIEC PROGRAMu
     
     return 0;

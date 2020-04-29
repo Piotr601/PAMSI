@@ -133,7 +133,7 @@ public:
             }
         }
         // wyswietlenie ilosci krawedzi
-        cout << "\nIlosc krawedzi: " << licznik << endl;     // Przy nieskierowanym, nalezy licznik podzielic na 2
+        // cout << "\nIlosc krawedzi: " << licznik << endl;     // Przy nieskierowanym, nalezy licznik podzielic na 2
 
         // stworzenie nowego obiektu i zarezerwowanie miejsca
         krawedz* kraw = new krawedz[licznik];
@@ -272,7 +272,7 @@ public:
 
         int sumator = 0;
 
-        // wypisanie wynikow
+      /*  // wypisanie wynikow
         cout << endl;
         for (int p = 0; p < licznik; p++)
         {
@@ -283,7 +283,7 @@ public:
         }
         // wypisanie minimalnego drzewa rozpinajacego
         cout << "\nMDR: " << sumator << endl;
-
+        */
         delete[] kraw;
     }
 };
@@ -294,61 +294,82 @@ public:
 
 int main() {
     // zainicjowanie wczytywanych elementow
-    int ilosc_wierzcholkow, liczba_krawedzi, pkt_startowy;
+    int liczba_krawedzi, pkt_startowy;
+    int temp1, temp2, temp3;
     int a, b, waga;
-
-    // wczytywanie z pliku 
-    std::fstream plik;
-
-    plik.open("Dane.txt", std::ios::in);
-    if (plik.good() == false) 
-    {
-        // gdy plik nie istnieje/jest uszkozdony
-        cout << "\n Plik nie istnieje!!!" << endl;
-        exit(1);
-    } 
-    if (plik.good() == true)
-    {
-        // gdy plik otworzy sie poprawnie
-       
-        // zczytanie podstawowych wartosci grafu i wypisanie ich
-        // z pliku, jest to pierwsza linijka
-
-        //cout << "Dane z pliku: \n";
-        plik >> ilosc_wierzcholkow >> liczba_krawedzi >> pkt_startowy;
-        //cout << ilosc_wierzcholkow << " " << liczba_krawedzi << " " << pkt_startowy << endl;
-
-        // tworzenie obiektu - graf
-        Graf graf(ilosc_wierzcholkow);
-
-        // wczytywanie dalszej czesci pliku,
-        // tyle ile wystepuje pozycji = krawedzi
-        // a nastepnie dodawanie krawedzi do grafu
-
-        for (int i = 0; i < liczba_krawedzi; i++) {
-
-            plik >> a >> b >> waga;
-           // cout << a << " " << b << " " << waga << endl;
-
-            graf.dodaj_krawedz(a, b, waga);
-
-        }
-        /// KONIEC DZIELANIA NA PLIKU
-        plik.close();
+    double czas = 0;
+    time_t czasStop, czasStart;
         
-        // INNE FUNKCJE
-            //graf.dodaj_krawedz(0, 1, 10);
-            //graf.usun_krawedz(0, 8);
+    int ilosc_wierzcholkow = 200;      // ustalona liczba wierzcholkow 50 / 100 / 200 / 500 / 1000
+    int i_powtorzen = 500;            // ilosc powtorzen algorytmu
+    int gestosc = 100;                 // gestosc 0,25 / 0.5 / 0.75 / 1.0
 
-            //graf.ZamienWagi(0,1,1,2);
-            //graf.sprawdzanie_krawedzi(1, 0);
+    liczba_krawedzi = (ilosc_wierzcholkow * (ilosc_wierzcholkow - 1) * gestosc) / 200;
 
-        // Wyswietla graf
-        //graf.Wyswietl();
+    for (int i = 0; i < i_powtorzen; i++)
+    {
+        // wczytywanie z pliku 
+        std::fstream plik;
 
-        // @@@ Algorytm @@@
-        graf.kruskal();
+        plik.open("Dane.txt", std::ios::in);
+        if (plik.good() == false)
+        {
+            // gdy plik nie istnieje/jest uszkozdony
+            cout << "\n Plik nie istnieje!!!" << endl;
+            exit(1);
+        }
+        if (plik.good() == true)
+        {
+            // gdy plik otworzy sie poprawnie
+
+            // zczytanie podstawowych wartosci grafu i wypisanie ich
+            // z pliku, jest to pierwsza linijka
+
+            //cout << "Dane z pliku: \n";
+            plik >> ilosc_wierzcholkow >> liczba_krawedzi >> pkt_startowy;
+            //cout << ilosc_wierzcholkow << " " << liczba_krawedzi << " " << pkt_startowy << endl;
+
+            // tworzenie obiektu - graf
+            Graf graf(ilosc_wierzcholkow);
+
+            // wczytywanie dalszej czesci pliku,
+            // tyle ile wystepuje pozycji = krawedzi
+            // a nastepnie dodawanie krawedzi do grafu
+
+            for (int i = 0; i < liczba_krawedzi; i++) {
+
+                // @@@@ TESTY @@@@
+                a= rand() % ilosc_wierzcholkow;
+                b = rand() % ilosc_wierzcholkow;
+                waga = (rand() % 1000) + 1;
+                //plik >> a >> b >> waga;
+                // cout << a << " " << b << " " << waga << endl;
+
+                graf.dodaj_krawedz(a, b, waga);
+
+            }
+            /// KONIEC DZIELANIA NA PLIKU
+            plik.close();
+
+            // INNE FUNKCJE
+                //graf.dodaj_krawedz(0, 1, 10);
+                //graf.usun_krawedz(0, 8);
+
+                //graf.ZamienWagi(0,1,1,2);
+                //graf.sprawdzanie_krawedzi(1, 0);
+
+            // Wyswietla graf
+            //graf.Wyswietl();
+
+            czasStart = clock();
+            // @@@ Algorytm @@@
+            graf.kruskal();
+            czasStop = clock();
+        }
+        czas += (double)(czasStop - czasStart) / CLOCKS_PER_SEC;
+        cout << i << " ";
     }
-
+    cout << "\nCzas: " << czas / i_powtorzen << endl;
+    // KONIEC PROGRAMu
     return 0;
 }

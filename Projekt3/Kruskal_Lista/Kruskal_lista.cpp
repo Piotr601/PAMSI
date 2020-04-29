@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
+#include <cstdio>
+#include <ctime>
 
 using namespace std;
 
@@ -217,81 +219,115 @@ public:
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 int main()
-{
+{   //   @@@@ @@@@ TESTY @@@@ @@@@    //
     // zainicjowanie wczytywanych elementow
     int l_krawedzi;
-    int l_wierzcholkow;
     int pkt_start;
+    int temp1, temp2, temp3;
+    double czas=0;
+    time_t czasStop, czasStart;
 
-    //wczytywanie z pliku
-    std::fstream plik;
+    srand(time(NULL));
 
-    plik.open("Dane.txt", std::ios::in);
-    if (plik.good() == false)
+    int l_wierzcholkow = 1000;            // ustalona liczba wierzcholkow 50 / 100 / 200 / 500 / 1000
+    int i_powtorzen = 100;                // ilosc powtorzen algorytmu
+    int gestosc = 25;               // gestosc 0,25 / 0.5 / 0.75 / 1.0
+
+    l_krawedzi = (l_wierzcholkow * (l_wierzcholkow - 1) * gestosc) / 200;
+
+    for (int i = 0; i < i_powtorzen; i++)
     {
-        // gdy plik nie istnieje/jest uszkozdony
-        cout << "\n Plik nie istnieje!!!" << endl;
-        exit(1);
-    }
-    if (plik.good() == true) 
-    {
-        // gdy plik otworzy sie poprawnie
-        cout << "Dane z pliku: \n";
+        pkt_start = rand() % l_wierzcholkow;
 
-    ////// ///////// PROGRAM ///////// ////////
+        //wczytywanie z pliku
+        std::fstream plik;
 
-        // zczytanie podstawowych wartosci grafu i wypisanie ich
-        // z pliku, jest to pierwsza linijka
-        plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
-        cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
-
-        // tworzenie obiektu, kolejki, kopca i drzewa-grafu
-        Krawedz kraw;
-        Kolejka K(l_krawedzi);  
-        Drzewo D(l_wierzcholkow);
-        Struktura_obiektow S(l_wierzcholkow);
-
-        // zainicjowanie struktur
-        for (int i = 0; i < l_wierzcholkow; i++)
+        plik.open("Dane.txt", std::ios::in);
+        if (plik.good() == false)
         {
-            S.Inicjuj(i);
+            // gdy plik nie istnieje/jest uszkozdony
+            cout << "\n Plik nie istnieje!!!" << endl;
+            exit(1);
         }
-        
-        // wczytywanie dalszej czesci pliku,
-        // tyle ile wystepuje pozycji = krawedzi
-        // a nastepnie dodawanie krawedzi w oparciu o dane do kolejki
-
-        for (int i = 0; i < l_krawedzi; i++) {
-            plik >> kraw.poczatek_w >> kraw.koniec_w >> kraw.waga;
-            K.dodaj(kraw);
-
-          //  wypisanie wczytywanych danych
-          //  cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
-
-        }
-
-        cout << "\n";
-
-        // @@@ Algorytm @@@
-        for (int i = 1; i < l_wierzcholkow; i++)
+        if (plik.good() == true)
         {
-            do
+            // gdy plik otworzy sie poprawnie
+            // cout << "Dane z pliku: \n";
+
+        ////// ///////// PROGRAM ///////// ////////
+
+            // zczytanie podstawowych wartosci grafu i wypisanie ich
+            // z pliku, jest to pierwsza linijka
+            //plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
+
+        // ustalana wartosc
+           // cout << "W1 W2 PS\n";
+           // cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
+            // pomija pierwsza linie
+               // plik >> temp1 >> temp2 >> temp3;
+               // cout << temp1 << " " << temp2 << " " << temp3 << endl;
+
+                /// KONIEC DZIELANIA NA PLIKU
+            plik.close();
+
+            // tworzenie obiektu, kolejki, kopca i drzewa-grafu
+            Krawedz kraw;
+            Kolejka K(l_krawedzi);
+            Drzewo D(l_wierzcholkow);
+            Struktura_obiektow S(l_wierzcholkow);
+
+            // zainicjowanie struktur
+            for (int i = 0; i < l_wierzcholkow; i++)
             {
-                kraw = K.poczatek();    // pobieranie z kolejki krawedzi
-                K.usun();           // usuwanie z kolejki krawedzi
-            } while (S.Znajdz(kraw.poczatek_w) == S.Znajdz(kraw.koniec_w));
+                S.Inicjuj(i);
+            }
 
-            D.dodaj_krawedz(kraw);      // dodawanie krawedzi do drzewa
-            S.Polacz(kraw);             // laczenie drzew  wstrukturze
+            // wczytywanie dalszej czesci pliku,
+            // tyle ile wystepuje pozycji = krawedzi
+            // a nastepnie dodawanie krawedzi w oparciu o dane do kolejki
 
+            for (int i = 0; i < l_krawedzi; i++) {
+                // plik >> kraw.poczatek_w >> kraw.koniec_w >> kraw.waga;
+
+                // @@@@ TESTY @@@@
+                kraw.poczatek_w = rand() % l_wierzcholkow;
+                kraw.koniec_w = rand() % l_wierzcholkow;
+                kraw.waga = (rand() % 1000) + 1;
+
+                while (kraw.poczatek_w == kraw.koniec_w) {
+                    kraw.koniec_w = rand() % l_wierzcholkow;
+                }
+
+                K.dodaj(kraw);
+
+                //  wypisanie wczytywanych danych
+               // cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
+
+            }
+
+            // @@@ Algorytm @@@
+            czasStart = clock();
+            for (int i = 1; i < l_wierzcholkow; i++)
+            {
+                do
+                {
+                    kraw = K.poczatek();    // pobieranie z kolejki krawedzi
+                    K.usun();           // usuwanie z kolejki krawedzi
+                } while (S.Znajdz(kraw.poczatek_w) == S.Znajdz(kraw.koniec_w));
+
+                D.dodaj_krawedz(kraw);      // dodawanie krawedzi do drzewa
+                S.Polacz(kraw);             // laczenie drzew  wstrukturze
+            }
+
+            czasStop = clock();
+        czas += (double)(czasStop-czasStart)/CLOCKS_PER_SEC;
+
+            // wyswietlanie drzewa
+            // D.Wyswietl();
+        //cout << i;
         }
-
-        /// KONIEC DZIELANIA NA PLIKU
-        plik.close();
-
-        // wyswietlanie drzewa
-        D.Wyswietl();               
     }
+    cout << "\nCzas: " << czas/i_powtorzen << endl;
     // KONIEC PROGRAMu
 
     return 0;
