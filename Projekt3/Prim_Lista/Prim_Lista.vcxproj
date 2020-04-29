@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{75154B50-DB51-48CE-B414-B38DB368D036}</ProjectGuid>
+    <ProjectGuid>{D11F1963-C92C-4000-AA51-B447BFAA538A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>GrafMacierz</RootNamespace>
+    <RootNamespace>PrimLista</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GrafMacierz.cpp" />
+    <ClCompile Include="Prim_Lista.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

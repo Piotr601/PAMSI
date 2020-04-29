@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{DF016C5E-756E-40F6-B240-37562C6BCBE7}</ProjectGuid>
+    <ProjectGuid>{207F3FBD-1E69-4F95-8384-626AC2CD8A21}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Kruskalv2Lista</RootNamespace>
+    <RootNamespace>KruskalMacierz</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Kruskalv2Lista.cpp" />
+    <ClCompile Include="Kruskal_Macierz.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
