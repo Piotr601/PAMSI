@@ -200,14 +200,14 @@ int main()
     srand(time(NULL));
 
     int l_wierzcholkow = 1000;            // ustalona liczba wierzcholkow 50 / 100 / 200 / 500 / 1000
-    int i_powtorzen = 25;                // ilosc powtorzen algorytmu
+    int i_powtorzen = 1;                // ilosc powtorzen algorytmu
     int gestosc = 100;               // gestosc 0,25 / 0.5 / 0.75 / 1.0
 
-    l_krawedzi = (l_wierzcholkow * (l_wierzcholkow - 1) * gestosc) / 200;
+    //l_krawedzi = (l_wierzcholkow * (l_wierzcholkow - 1) * gestosc) / 200;
 
     for (int i = 0; i < i_powtorzen; i++)
     {
-        pkt_start = rand() % l_wierzcholkow;
+        //pkt_start = rand() % l_wierzcholkow;
 
         //wczytywanie z pliku
         std::fstream plik;
@@ -223,14 +223,14 @@ int main()
         if (plik.good() == true)
         {
             // gdy plik otworzy sie poprawnie
-            // cout << "Dane z pliku: \n";
+            cout << "Dane z pliku: \n";
 
             ////// ///////// PROGRAM ///////// ////////
 
                 // zczytanie podstawowych wartosci grafu i wypisanie ich
                 // z pliku, jest to pierwsza linijka
-            // plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
-            // cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
+             plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
+             cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
 
             // zmienna przechowujaca czy dany wierzcholek zostal juz odwiedzony
 
@@ -255,18 +255,18 @@ int main()
 
             for (int i = 0; i < l_krawedzi; i++)
             {
-               //plik >> kraw.poczatek_w >> kraw.koniec_w >> kraw.waga;
+               plik >> kraw.poczatek_w >> kraw.koniec_w >> kraw.waga;
                
                 // @@@@ TESTY @@@@
-                kraw.poczatek_w = rand() % l_wierzcholkow;
+                /*kraw.poczatek_w = rand() % l_wierzcholkow;
                 kraw.koniec_w = rand() % l_wierzcholkow;
                 kraw.waga = (rand() % 1000) + 1;
 
                 while (kraw.poczatek_w == kraw.koniec_w) {
                     kraw.koniec_w = rand() % l_wierzcholkow;
-                }
+                }*/
                
-               // cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
+                cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
                 G.dodaj_krawedz(kraw);
             }
 
@@ -306,7 +306,7 @@ int main()
             plik.close();
 
 
-           // D.Wyswietl();   // wyswietlenie drzewa-grafu
+            D.Wyswietl();   // wyswietlenie drzewa-grafu
         }
         // cout << i << " ";
     }

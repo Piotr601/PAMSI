@@ -200,7 +200,7 @@ public:
     void Wyswietl()         // wyswietlanie drzewa
     {
         Lista* Lista1;      //wskaznik
-        cout << "Algorytm Kruskala: \n";
+        cout << "\nAlgorytm Kruskala: ";
         for (int i = 0; i <= wielkosc; i++)
         {
             // wypisanie wynikow
@@ -230,14 +230,14 @@ int main()
     srand(time(NULL));
 
     int l_wierzcholkow = 1000;            // ustalona liczba wierzcholkow 50 / 100 / 200 / 500 / 1000
-    int i_powtorzen = 100;                // ilosc powtorzen algorytmu
+    int i_powtorzen = 1;                // ilosc powtorzen algorytmu
     int gestosc = 25;               // gestosc 0,25 / 0.5 / 0.75 / 1.0
 
-    l_krawedzi = (l_wierzcholkow * (l_wierzcholkow - 1) * gestosc) / 200;
+    //l_krawedzi = (l_wierzcholkow * (l_wierzcholkow - 1) * gestosc) / 200;
 
     for (int i = 0; i < i_powtorzen; i++)
     {
-        pkt_start = rand() % l_wierzcholkow;
+        // pkt_start = rand() % l_wierzcholkow;
 
         //wczytywanie z pliku
         std::fstream plik;
@@ -252,23 +252,22 @@ int main()
         if (plik.good() == true)
         {
             // gdy plik otworzy sie poprawnie
-            // cout << "Dane z pliku: \n";
+            cout << "Dane z pliku: \n";
 
         ////// ///////// PROGRAM ///////// ////////
 
             // zczytanie podstawowych wartosci grafu i wypisanie ich
             // z pliku, jest to pierwsza linijka
-            //plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
+            plik >> l_wierzcholkow >> l_krawedzi >> pkt_start;
 
         // ustalana wartosc
-           // cout << "W1 W2 PS\n";
-           // cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
+             cout << "W1 W2 PS\n";
+             cout << l_wierzcholkow << " " << l_krawedzi << " " << pkt_start << endl;
             // pomija pierwsza linie
-               // plik >> temp1 >> temp2 >> temp3;
-               // cout << temp1 << " " << temp2 << " " << temp3 << endl;
+            // plik >> temp1 >> temp2 >> temp3;
+            // cout << temp1 << " " << temp2 << " " << temp3 << endl;
 
-                /// KONIEC DZIELANIA NA PLIKU
-            plik.close();
+            
 
             // tworzenie obiektu, kolejki, kopca i drzewa-grafu
             Krawedz kraw;
@@ -287,23 +286,27 @@ int main()
             // a nastepnie dodawanie krawedzi w oparciu o dane do kolejki
 
             for (int i = 0; i < l_krawedzi; i++) {
-                // plik >> kraw.poczatek_w >> kraw.koniec_w >> kraw.waga;
+                plik >> kraw.poczatek_w >> kraw.koniec_w >> kraw.waga;     
 
                 // @@@@ TESTY @@@@
-                kraw.poczatek_w = rand() % l_wierzcholkow;
+                /*kraw.poczatek_w = rand() % l_wierzcholkow;
                 kraw.koniec_w = rand() % l_wierzcholkow;
                 kraw.waga = (rand() % 1000) + 1;
 
                 while (kraw.poczatek_w == kraw.koniec_w) {
                     kraw.koniec_w = rand() % l_wierzcholkow;
-                }
+                }*/
+
 
                 K.dodaj(kraw);
 
                 //  wypisanie wczytywanych danych
-               // cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
+                cout << kraw.poczatek_w << " " << kraw.koniec_w << " " << kraw.waga << endl;
 
             }
+
+            /// KONIEC DZIELANIA NA PLIKU
+            plik.close();
 
             // @@@ Algorytm @@@
             czasStart = clock();
@@ -323,7 +326,7 @@ int main()
         czas += (double)(czasStop-czasStart)/CLOCKS_PER_SEC;
 
             // wyswietlanie drzewa
-            // D.Wyswietl();
+             D.Wyswietl();
         //cout << i;
         }
     }

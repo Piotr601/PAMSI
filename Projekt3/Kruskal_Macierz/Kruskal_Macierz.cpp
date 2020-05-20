@@ -84,7 +84,7 @@ public:
 
     void Wyswietl()         // wyswietla graf
     {
-        cout << "\n\nGraf: \n";
+        cout << "\n\nMacierz: \n";
 
         for (int i = 0; i < ilosc_wierzcholkow; i++)    // przechodzenie po wszystkich i
         {
@@ -133,7 +133,7 @@ public:
             }
         }
         // wyswietlenie ilosci krawedzi
-        // cout << "\nIlosc krawedzi: " << licznik << endl;     // Przy nieskierowanym, nalezy licznik podzielic na 2
+         cout << "\nIlosc krawedzi: " << licznik << endl;     // Przy nieskierowanym, nalezy licznik podzielic na 2
 
         // stworzenie nowego obiektu i zarezerwowanie miejsca
         krawedz* kraw = new krawedz[licznik];
@@ -162,8 +162,8 @@ public:
             }
         }
 
-        /* Do sprawdzania
-        cout << endl;
+        //Do sprawdzania - sortowanie wagami
+        /*cout << endl;
          for (int p = 0; p < licznik; p++)
           {
               cout << kraw[p].poczatek_k << " " << kraw[p].koniec_k << " " << kraw[p].waga << endl;
@@ -259,21 +259,22 @@ public:
         }
 
         // sortowanie wynikow
-       /* for (int p = 0; p < licznik; p++)
+        for (int p = 0; p < licznik; p++)
         {
             for (int s = 0; s < licznik; s++)
             {
                 if (kraw[p].poczatek_k <= kraw[s].poczatek_k)
                     std::swap(kraw[p], kraw[s]);
             }
-        }*/
+        }
         // zalecane dla duzych plikow quicksort V
 
 
         int sumator = 0;
 
-      /*  // wypisanie wynikow
+        // wypisanie wynikow
         cout << endl;
+        cout << "Po sortowaniu:\n";
         for (int p = 0; p < licznik; p++)
         {
             if (kraw[p].waga != -1) {
@@ -283,7 +284,7 @@ public:
         }
         // wypisanie minimalnego drzewa rozpinajacego
         cout << "\nMDR: " << sumator << endl;
-        */
+        
         delete[] kraw;
     }
 };
@@ -301,10 +302,10 @@ int main() {
     time_t czasStop, czasStart;
         
     int ilosc_wierzcholkow = 200;      // ustalona liczba wierzcholkow 50 / 100 / 200 / 500 / 1000
-    int i_powtorzen = 500;            // ilosc powtorzen algorytmu
+    int i_powtorzen = 1;            // ilosc powtorzen algorytmu
     int gestosc = 100;                 // gestosc 0,25 / 0.5 / 0.75 / 1.0
 
-    liczba_krawedzi = (ilosc_wierzcholkow * (ilosc_wierzcholkow - 1) * gestosc) / 200;
+    //liczba_krawedzi = (ilosc_wierzcholkow * (ilosc_wierzcholkow - 1) * gestosc) / 200;
 
     for (int i = 0; i < i_powtorzen; i++)
     {
@@ -325,9 +326,9 @@ int main() {
             // zczytanie podstawowych wartosci grafu i wypisanie ich
             // z pliku, jest to pierwsza linijka
 
-            //cout << "Dane z pliku: \n";
+            cout << "Dane z pliku: \n";
             plik >> ilosc_wierzcholkow >> liczba_krawedzi >> pkt_startowy;
-            //cout << ilosc_wierzcholkow << " " << liczba_krawedzi << " " << pkt_startowy << endl;
+            cout << ilosc_wierzcholkow << " " << liczba_krawedzi << " " << pkt_startowy << endl;
 
             // tworzenie obiektu - graf
             Graf graf(ilosc_wierzcholkow);
@@ -339,11 +340,12 @@ int main() {
             for (int i = 0; i < liczba_krawedzi; i++) {
 
                 // @@@@ TESTY @@@@
-                a= rand() % ilosc_wierzcholkow;
+               /* a= rand() % ilosc_wierzcholkow;
                 b = rand() % ilosc_wierzcholkow;
-                waga = (rand() % 1000) + 1;
-                //plik >> a >> b >> waga;
-                // cout << a << " " << b << " " << waga << endl;
+                waga = (rand() % 1000) + 1;*/
+
+                plik >> a >> b >> waga;
+                 cout << a << " " << b << " " << waga << endl;
 
                 graf.dodaj_krawedz(a, b, waga);
 
@@ -359,7 +361,7 @@ int main() {
                 //graf.sprawdzanie_krawedzi(1, 0);
 
             // Wyswietla graf
-            //graf.Wyswietl();
+            graf.Wyswietl();
 
             czasStart = clock();
             // @@@ Algorytm @@@
@@ -367,7 +369,7 @@ int main() {
             czasStop = clock();
         }
         czas += (double)(czasStop - czasStart) / CLOCKS_PER_SEC;
-        cout << i << " ";
+       // cout << i << " ";
     }
     cout << "\nCzas: " << czas / i_powtorzen << endl;
     // KONIEC PROGRAMu
