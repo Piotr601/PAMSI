@@ -17,6 +17,7 @@ int py;
 int tura;
 char pxlitera;
 
+
 struct Szachownica
 {
     Szachownica()
@@ -169,7 +170,6 @@ public:
         }
     }
 
-
     void Ruch_Pionka_bialy()
     {
         int ruch = 0;
@@ -223,21 +223,35 @@ public:
                     }
                 }
 
+               
                 cout << endl;
 
                 //Sprawdzanie ruchow po wolnych polach
 
                 cout << "\nMozliwe ruchy: \n";
 
+
+                if (Szach[px - 1][py + 1] == 3)
+                {
+                    cout << " 5 DL: " << "(" << px - 1 << "," << py + 1 << ")        ";
+                    licznik_ruchow++;
+                }
+
+                if (Szach[px + 1][py + 1] == 3)
+                {
+                    cout << " 6 DR: " << "(" << px + 1 << "," << py + 1 << ")        ";
+                    licznik_ruchow++;
+                }
+
                 if (Szach[px - 1][py - 1] == 3)
                 {
-                    cout << " 7 ruch: " << "(" << px - 1 << "," << py - 1 << ")        ";
+                    cout << " 7 UL: " << "(" << px - 1 << "," << py - 1 << ")        ";
                     licznik_ruchow++;
                 }
 
                 if (Szach[px + 1][py - 1] == 3)
                 {
-                    cout << " 8 ruch: " << "(" << px + 1 << "," << py - 1 << ")        ";
+                    cout << " 8 UR: " << "(" << px + 1 << "," << py - 1 << ")        ";
                     licznik_ruchow++;
                 }
 
@@ -250,6 +264,7 @@ public:
                 }
                 else
                 {
+
                     cout << " 9 - cofnij        ";
                     cout << "\nWpisz ktory ruch chcesz wykonac: ";
                     cin >> ruch;
@@ -259,31 +274,36 @@ public:
                     {
                         std::swap(Szach[px - 2][py - 2], Szach[px][py]);
                         Szach[px - 1][py - 1] = 3;
-                        tura --;
                     }
 
                     if (ruch == 2)
                     {
                         std::swap(Szach[px - 2][py + 2], Szach[px][py]);
                         Szach[px - 1][py + 1] = 3;
-                        tura--;
                     }
 
                     if (ruch == 3)
                     {
                         std::swap(Szach[px + 2][py - 2], Szach[px][py]);
                         Szach[px + 1][py - 1] = 3;
-                        tura--;
                     }
 
                     if (ruch == 4)
                     {
                         std::swap(Szach[px + 2][py + 2], Szach[px][py]);
                         Szach[px + 1][py + 1] = 3;
-                        tura--;
+                    }
+                    
+                    // RUCHY biale
+                    if (ruch == 5)
+                    {
+                        std::swap(Szach[px - 1][py + 1], Szach[px][py]);
                     }
 
-                    // RUCHY biale
+                    if (ruch == 6)
+                    {
+                        std::swap(Szach[px + 1][py + 1], Szach[px][py]);
+                    }
 
                     if (ruch == 8)
                     {
@@ -307,12 +327,13 @@ public:
                 Sleep(150);
                 goto Poczatek;
             }
-        
+            
     }
 
     void Ruch_Pionka_czarny()
     {
         int ruch = 0;
+
 
         Poczatek:
         cout << "\nPodaj namiary na pionka wpisujac rzad i kolumne, np (A1)" << endl << ">> ";
@@ -333,6 +354,7 @@ public:
                     {
                         cout << " 1 bicie: " << "(" << px - 2 << "," << py - 2 << ")        ";
                         bicie++;
+
                     }
                 }
 
@@ -341,6 +363,7 @@ public:
                     if (Szach[px - 2][py + 2] == 3)
                         cout << " 2 bicie: " << "(" << px - 2 << "," << py + 2 << ")        ";
                         bicie++;
+
                 }
 
                 if (Szach[px + 1][py - 1] == 1)
@@ -358,6 +381,7 @@ public:
                     {
                         cout << " 4 bicie: " << "(" << px + 2 << "," << py + 2 << ")        ";
                         bicie++;
+
                     }
                 }
 
@@ -369,16 +393,27 @@ public:
 
                 if (Szach[px - 1][py + 1] == 3)
                 {
-                    cout << " 5 ruch: " << "(" << px - 1 << "," << py + 1 << ")        ";
+                    cout << " 5 DL: " << "(" << px - 1 << "," << py + 1 << ")        ";
                     licznik_ruchow++;
                 }
 
                 if (Szach[px + 1][py + 1] == 3)
                 {
-                    cout << " 6 ruch: " << "(" << px + 1 << "," << py + 1 << ")        ";
+                    cout << " 6 DR: " << "(" << px + 1 << "," << py + 1 << ")        ";
                     licznik_ruchow++;
                 }
 
+                if (Szach[px - 1][py - 1] == 3)
+                {
+                    cout << " 7 UL: " << "(" << px - 1 << "," << py - 1 << ")        ";
+                    licznik_ruchow++;
+                }
+
+                if (Szach[px + 1][py - 1] == 3)
+                {
+                    cout << " 8 UR: " << "(" << px + 1 << "," << py - 1 << ")        ";
+                    licznik_ruchow++;
+                }
 
                 // Gdy nie ma zadnego ruchu i bicia
                 if (licznik_ruchow - 1 == 0 && bicie == 0)
@@ -398,28 +433,24 @@ public:
                     {
                         std::swap(Szach[px - 2][py - 2], Szach[px][py]);
                         Szach[px - 1][py - 1] = 3;
-                        tura--;
                     }
 
                     if (ruch == 2)
                     {
                         std::swap(Szach[px - 2][py + 2], Szach[px][py]);
                         Szach[px - 1][py + 1] = 3;
-                        tura--;
                     }
 
                     if (ruch == 3)
                     {
                         std::swap(Szach[px + 2][py - 2], Szach[px][py]);
                         Szach[px + 1][py - 1] = 3;
-                        tura--;
                     }
 
                     if (ruch == 4)
                     {
                         std::swap(Szach[px + 2][py + 2], Szach[px][py]);
                         Szach[px + 1][py + 1] = 3;
-                        tura--;
                     }
 
                     //RUCHY czarne
@@ -431,6 +462,16 @@ public:
                     if (ruch == 6)
                     {
                         std::swap(Szach[px + 1][py + 1], Szach[px][py]);
+                    }
+
+                    if (ruch == 8)
+                    {
+                        std::swap(Szach[px + 1][py - 1], Szach[px][py]);
+                    }
+
+                    if (ruch == 7)
+                    {
+                        std::swap(Szach[px - 1][py - 1], Szach[px][py]);
                     }
 
                     if (ruch == 9)
@@ -512,7 +553,6 @@ void Sprawdzanie_Remis()
 
 void Gra_Dwoch() 
 {
-
     Szachownica szach;
     Pionki pion;
 
@@ -548,7 +588,6 @@ void Gra_Dwoch()
             Sprawdzanie();
             system("cls");
             tura++;
-
         }
 
         Sprawdzanie_Remis();
@@ -580,65 +619,6 @@ void Gra_Dwoch()
     }
 }
 
-void Gra()
-{
-    Szachownica szach1;
-    Pionki pion1;
-
-    int zaczyna = 0;
-    cout << " Zdecyduj kto zaczyna" << endl;
-    cout << "  0 - biale" << endl;
-    cout << "  1 - czarne" << endl << endl << " Twoj wybor > ";
-    cin >> zaczyna;
-
-    tura = zaczyna;
-    Sleep(100);
-    system("cls");
-
-    do
-    {
-        if (tura % 2 == 0)
-        {
-            // biale
-            szach1.Wyświetl();
-            cout << "            >> Tura BIALE <<";
-            pion1.Ruch_Pionka_bialy();
-            Sprawdzanie();
-            system("cls");
-            tura++;
-        }
-        else
-        {
-            //czarne
-            szach1.Wyświetl();
-            cout << "            >> Tura CZARNE <<";
-            // RUCH BOTA 
-            Sprawdzanie();
-            system("cls");
-            tura++;
-
-        }
-
-    } while (wygrana_b == 0 && wygrana_c == 0);
-
-    if (wygrana_b == 1)
-    {
-        system("cls");
-        cout << " G R A T U L A C J E ";
-        cout << "\n\n > Wygraly biale < \n";
-        Sleep(500);
-    }
-
-    if (wygrana_c == 1)
-    {
-        system("cls");
-        cout << " G R A T U L A C J E ";
-        cout << "\n\n > Wygraly czarne < \n";
-        Sleep(500);
-    }
-
-}
-
 int main()
 {
     int wybor=0;
@@ -649,7 +629,7 @@ int main()
 
         cout << " +-----------------------+" << endl;
         cout << " |         MENU          |" << endl;
-        cout << " |  1 - Graj             |" << endl;
+        cout << " |  1 - -----            |" << endl;
         cout << " |  2 - Graj w 2 osoby   |" << endl;
         cout << " |  3 - Wyjscie          |" << endl;
         cout << " +-----------------------+" << endl;
@@ -661,7 +641,6 @@ int main()
         {
         case 1:
             system("cls");
-            Gra();
             break;
 
         case 2:
