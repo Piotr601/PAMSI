@@ -2,12 +2,13 @@
 #include <Windows.h>
 #include <time.h>
 #include <cstdlib>
+#include <string>
 
 #include <algorithm>
 #include <limits>
 
-#define MAX 50			// MAKSYMALNY ROZMIAR PLANSZY
-#define GLEBOKOSC 3		// GLEBOKOSC PRZESZUKIWANIA
+#define MAX 30			// MAKSYMALNY ROZMIAR PLANSZY
+#define GLEBOKOSC 10	// GLEBOKOSC PRZESZUKIWANIA
 #define inf 2147483647
 
 using namespace std;
@@ -29,13 +30,13 @@ int x, y;
 int liczba_pol;				// LICZBA DEFINIOWANYCH POL
 int liczba_symboli;			// LICZBA SYMBOLI POTRZEBNYCH DO WYGRANIA
 
-// MINMAX
+// MINIMAX
+int kompx = 0;
+int kompy = 0;
 int wynik;
 
 // MAIN
 int wybor;
-
-
 
 /*--------------------------*/
 /*		KLASA I METODY		*/	
@@ -152,6 +153,7 @@ public:
 	{
 		do {
 			char temp;
+
 			cout << " > Podaj wspolrzedne w ktorym chcesz wstawic znak np. (1,1) : ";
 			cin >> temp >> x >> temp >> y >> temp;
 
@@ -178,135 +180,38 @@ public:
 		// GRACZ NUMER JEDEN - SPRAWDZANIE
 		/*-----------------------------------*/
 		// SPRAWDZANIE CO TURE DLA 1 GRACZA
-
-		if (tura % 2 == 0)
-		{
-
-			
-				int pomg;
-
-				// SPRAWDZANIE POZIOMO
-
-				for (int a = 0; a < liczba_pol; a++)
-				{
-					for (int b = 0; b < liczba_pol; b++)
-					{
-						pomg = 0;
-						// SPRAWDZANIE GRACZ (POZIOMO)
-						for (int k = 0; k < liczba_symboli; k++)
-						{
-							if (plansza[a][b + k] == gracz1) pomg++;
-						}
-						if (pomg == liczba_symboli) return 1;
-					}
-				}
-
-				// SPRAWDZANIE PIONOWO
-				for (int a = 0; a < liczba_pol; a++)
-				{
-					for (int b = 0; b < liczba_pol; b++)
-					{
-						pomg = 0;
-						// SPRAWDZANIE GRACZ (PIONOWO)
-						for (int k = 0; k < liczba_symboli; k++)
-						{
-							if (plansza[b + k][a] == gracz1) pomg++;
-						}
-						if (pomg == liczba_symboli) return 1;
-					}
-				}
-
-				// SPRAWDZANIE SKOS 1
-				for (int a = 0; a < liczba_pol; a++)
-				{
-					for (int b = 0; b < liczba_pol; b++)
-					{
-						// SPRAWDZANIE GRACZ UKOS 1 - POD PRZEKATNA I PRZEKATNA
-						pomg = 0;
-						for (int k = 0; k < liczba_symboli; k++)
-						{
-							if (plansza[a+b+k][b+k] == gracz1) pomg++;
-						}
-						if (pomg == liczba_symboli) return 1;
-
-						// SPRAWDZANIE GRACZ UKOS 1 - NAD PRZEKATNA I PRZEKATNA
-						pomg = 0;
-						for (int k = 0; k < liczba_symboli; k++)
-						{
-							if (plansza[b+k][a+b+k] == gracz1) pomg++;
-						}
-						if (pomg == liczba_symboli) return 1;
-					}
-				}
-
-				// SPRAWDZANIE SKOS 2
-				for (int a = liczba_pol - 1; a > -1; a--)
-				{
-					for (int b = 0; b < liczba_pol; b++)
-					{
-						// SPRAWDZANIE GRACZ UKOS 2 - PRZEKATNA NAD I POD
-						pomg = 0;
-						for (int k = 0; k < liczba_symboli; k++)
-						{
-							if (plansza[b + k][a - k] == gracz1) pomg++;
-						}
-						if (pomg == liczba_symboli) return 1;
-					}
-				}
-			
-		}
-
-		/*------------------------------------------*/
-		// GRACZ NUMER DWA (KOMPUTER) - SPRAWDZANIE
-		/*------------------------------------------*/
-		// SPRAWDZANIE CO TURE DLA 2 GRACZA
-
-		else
-		{
-
+		
 			int pomg;
 
-			// SPRAWDZANIE POZIOMO
-
+			// SPRAWDZANIE
 			for (int a = 0; a < liczba_pol; a++)
 			{
 				for (int b = 0; b < liczba_pol; b++)
 				{
+				// SPRAWDZANIE POZIOMO
 					pomg = 0;
 					// SPRAWDZANIE GRACZ (POZIOMO)
 					for (int k = 0; k < liczba_symboli; k++)
 					{
-						if (plansza[a][b + k] == gracz2) pomg++;
+						if (plansza[a][b + k] == gracz1) pomg++;
 					}
 					if (pomg == liczba_symboli) return 1;
-				}
-			}
 
-			// SPRAWDZANIE PIONOWO
-			for (int a = 0; a < liczba_pol; a++)
-			{
-				for (int b = 0; b < liczba_pol; b++)
-				{
+				// SPRAWDZANIE PIONOWO
 					pomg = 0;
 					// SPRAWDZANIE GRACZ (PIONOWO)
 					for (int k = 0; k < liczba_symboli; k++)
 					{
-						if (plansza[b + k][a] == gracz2) pomg++;
+						if (plansza[b + k][a] == gracz1) pomg++;
 					}
 					if (pomg == liczba_symboli) return 1;
-				}
-			}
 
-			// SPRAWDZANIE SKOS 1
-			for (int a = 0; a < liczba_pol; a++)
-			{
-				for (int b = 0; b < liczba_pol; b++)
-				{
+				// SPRAWDZANIE SKOS 1
 					// SPRAWDZANIE GRACZ UKOS 1 - POD PRZEKATNA I PRZEKATNA
 					pomg = 0;
 					for (int k = 0; k < liczba_symboli; k++)
 					{
-						if (plansza[a + b + k][b + k] == gracz2) pomg++;
+						if (plansza[a + b + k][b + k] == gracz1) pomg++;
 					}
 					if (pomg == liczba_symboli) return 1;
 
@@ -314,9 +219,72 @@ public:
 					pomg = 0;
 					for (int k = 0; k < liczba_symboli; k++)
 					{
-						if (plansza[b + k][a + b + k] == gracz2) pomg++;
+						if (plansza[b + k][a + b + k] == gracz1) pomg++;
 					}
 					if (pomg == liczba_symboli) return 1;
+				}
+			}
+
+			// SPRAWDZANIE SKOS 2
+			for (int a = liczba_pol - 1; a > -1; a--)
+			{
+				for (int b = 0; b < liczba_pol; b++)
+				{
+				// SPRAWDZANIE GRACZ UKOS 2 - PRZEKATNA NAD I POD
+					pomg = 0;
+					for (int k = 0; k < liczba_symboli; k++)
+					{
+						if (plansza[b + k][a - k] == gracz1) pomg++;
+					}
+					if (pomg == liczba_symboli) return 1;
+				}
+			}
+			
+	
+
+		/*------------------------------------------*/
+		// GRACZ NUMER DWA (KOMPUTER) - SPRAWDZANIE
+		/*------------------------------------------*/
+		// SPRAWDZANIE CO TURE DLA 2 GRACZA
+
+			for (int a = 0; a < liczba_pol; a++)
+			{
+				for (int b = 0; b < liczba_pol; b++)
+				{
+				// SPRAWDZANIE POZIOMO
+					pomg = 0;
+				// SPRAWDZANIE GRACZ (POZIOMO)
+					for (int k = 0; k < liczba_symboli; k++)
+					{
+						if (plansza[a][b + k] == gracz2) pomg++;
+					}
+					if (pomg == liczba_symboli) return -1;
+
+				// SPRAWDZANIE PIONOWO
+					pomg = 0;
+					// SPRAWDZANIE GRACZ (PIONOWO)
+					for (int k = 0; k < liczba_symboli; k++)
+					{
+						if (plansza[b + k][a] == gracz2) pomg++;
+					}
+					if (pomg == liczba_symboli) return -1;
+
+				// SPRAWDZANIE SKOS 1
+					// SPRAWDZANIE GRACZ UKOS 1 - POD PRZEKATNA I PRZEKATNA
+					pomg = 0;
+					for (int k = 0; k < liczba_symboli; k++)
+					{
+						if (plansza[a + b + k][b + k] == gracz2) pomg++;
+					}
+					if (pomg == liczba_symboli) return -1;
+
+					// SPRAWDZANIE GRACZ UKOS 1 - NAD PRZEKATNA I PRZEKATNA
+					pomg = 0;
+					for (int k = 0; k < liczba_symboli; k++)
+					{
+						if (plansza[b + k][a + b + k] == gracz2) pomg++;
+					}
+					if (pomg == liczba_symboli) return -1;
 				}
 			}
 
@@ -331,10 +299,9 @@ public:
 					{
 						if (plansza[b + k][a - k] == gracz2) pomg++;
 					}
-					if (pomg == liczba_symboli) return 1;
+					if (pomg == liczba_symboli) return -1;
 				}
 			}
-		}
 
 		// SPRAWDZANIE REMISU
 		int rem = 0;
@@ -346,15 +313,10 @@ public:
 				if (plansza[i][j] == 0) rem++;
 			}
 		}
-		if (rem == 0)
-		{
+		if (rem == 0) 
 			return 3;
-		}
 		else
-		{
 			return 0;
-		}
-
 	}
 
 	/*-----------------*/
@@ -365,17 +327,23 @@ public:
 
 	// FUNKCJA MAKSYMALIZUJACA
 
-	int MinIMax(int liczba_pol, int liczba_symboli, int glebokosc, bool maksymalizacja)
+	int MinIMax(int glebokosc, bool maksymalizacja)
 	{
+		int pom = Sprawdzanie();
 
-		if (Sprawdzanie() == 1) return -10;
-		if (Sprawdzanie() == 2) return 10;
-		if (Sprawdzanie() == 3) return 0;
+		// WYGRANA
+		if (pom == 1) return 10;
+		// PRZEGRANA
+		if (pom == -1) return -10;
+		//REMIS
+		if (pom == 3) return 0;
 
+		if (glebokosc == GLEBOKOSC) return pom;
 
 		if (maksymalizacja)
 		{	
-		// FUNKCJA MAKSYMALIZUJACA
+			// FUNKCJA MAKSYMALIZUJACA
+
 			int Najlepszy_wynik = -inf;
 
 			for (int i = 0; i < liczba_pol; i++)
@@ -384,19 +352,19 @@ public:
 				{
 					if (plansza[i][j] == 0)
 					{
-						plansza[i][j] = gracz2;
-						wynik = MinIMax(liczba_pol, liczba_symboli, GLEBOKOSC + 1, false);
+						plansza[i][j] = gracz1;
+						wynik = MinIMax(GLEBOKOSC + 1, false);
 						plansza[i][j] = 0;
-						Najlepszy_wynik = max(wynik, Najlepszy_wynik);
+						Najlepszy_wynik = max(wynik,Najlepszy_wynik);
 					}
-
 				}
 			}
 			return Najlepszy_wynik;
 		}
 		else
 		{
-		// FUNKCJA MINIMALIZUJACA
+			// FUNKCJA MINIMALIZUJACA
+
 			int Najlepszy_wynik = inf;
 
 			for (int i = 0; i < liczba_pol; i++)
@@ -405,12 +373,11 @@ public:
 				{
 					if (plansza[i][j] == 0)
 					{
-						plansza[i][j] = gracz1;
-						wynik = MinIMax(liczba_pol, liczba_symboli, GLEBOKOSC + 1, true);
+						plansza[i][j] = gracz2;
+						wynik = MinIMax(GLEBOKOSC + 1, true);
 						plansza[i][j] = 0;
-						Najlepszy_wynik = min(wynik, Najlepszy_wynik);
+						Najlepszy_wynik = min(wynik,Najlepszy_wynik);
 					}
-
 				}
 			}
 			return Najlepszy_wynik;
@@ -418,7 +385,7 @@ public:
 	}
 
 	// RUCH KOMPUTERA
-	void Najlepszy_ruch(int liczba_pol, int liczba_symboli)
+	void Najlepszy_ruch()
 	{
 		wynik = 0;
 		int Najlepszy_wynik = -inf;
@@ -429,31 +396,58 @@ public:
 			{
 				if (plansza[i][j] == 0)
 				{
-					plansza[i][j] = gracz2;
+					plansza[i][j] = gracz1;
 
-					wynik = MinIMax(liczba_pol, liczba_symboli, 0, false);
+					if (Sprawdzanie() == 1) wynik = inf;
+					else wynik = MinIMax( 0, false);
 
 					plansza[i][j] = 0;
 					if (wynik > Najlepszy_wynik)
 					{
 						Najlepszy_wynik = wynik;
-						x = i;
-						y = j;
+						kompx = i; kompy = j;
 					}
 				}
-
+				else if (plansza[i][j] == 99) break;
 			}
 		}
-		plansza[x][y] = gracz2;
+		plansza[kompx][kompy] = gracz2;
 	}
+
 };
 
 /*-----------------*/
-/*       GRA       */
+/*       GRA       */ 
 /*-----------------*/
 
 // WYSWIETLA INFORMACJE KTO WYGRAL/ O REMISIE
+void InformacjaKoncowa()
+{
+	getchar();
 
+	if (wygrana_gracz == 1)
+	{
+		//system("cls");
+		cout << " " << liczba_symboli << " razy X w rzedzie!\n";
+		cout << "\n Gratulacje\n";
+		cout << " WYGRALES! C:\n";
+	}
+
+	if (wygrana_komputer == 1)
+	{
+		//system("cls");
+		cout << " " << liczba_symboli << " razy O w rzedzie!\n";
+		cout << "\n Niestety\n";
+		cout << " Wygral przeciwnik :C\n";
+	}
+
+	if (remis == 1)
+	{
+		//system("cls");
+		cout << " Remis\n";
+		cout << " Nikt nie wygral, nikt nie przegral\n";
+	}
+}
 
 // GRA Z INNYM GRACZEM
 void Gra_N()
@@ -474,13 +468,16 @@ void Gra_N()
 			cout << " > Tura 1 gracza\n";
 			kik.Ruch_Gracz();
 
-			if (kik.Sprawdzanie() == 1)
-				wygrana_gracz = 1;
-			else if (kik.Sprawdzanie() == 2)
-				wygrana_komputer = 1;
-			else if (kik.Sprawdzanie() == 3)
-				remis = 1;
-
+			// SPRAWDZANE JEST DOPIERO OD KIEDY JEDNA OSOBA WYKONA MINIMALNA ILOSC RUCHOW BY WYGRAC
+			if (tura + 1 >= (2 * liczba_symboli - 1))
+			{
+				if (kik.Sprawdzanie() == 1)
+					wygrana_gracz = 1;
+				else if (kik.Sprawdzanie() == -1)
+					wygrana_komputer = 1;
+				else if (kik.Sprawdzanie() == 3)
+					remis = 1;
+			}
 			tura++;
 
 		}
@@ -490,14 +487,16 @@ void Gra_N()
 			cout << " < Tura 2 gracza\n";
 			kik.Ruch_Gracz();
 
-			
-			if (kik.Sprawdzanie() == 1)
-				wygrana_gracz = 1;
-			else if (kik.Sprawdzanie() == 2)
-				wygrana_komputer = 1;
-			else if (kik.Sprawdzanie() == 3)
-				remis = 1;
-
+			// SPRAWDZANE JEST DOPIERO OD KIEDY JEDNA OSOBA WYKONA MINIMALNA ILOSC RUCHOW BY WYGRAC
+			if (tura + 1 >= (2 * liczba_symboli - 1))
+			{ 
+				if (kik.Sprawdzanie() == 1)
+					wygrana_gracz = 1;
+				else if (kik.Sprawdzanie() == 2)
+					wygrana_komputer = 1;
+				else if (kik.Sprawdzanie() == 3)
+					remis = 1;
+			}	
 			tura++;
 		} 
 
@@ -505,45 +504,41 @@ void Gra_N()
 
 	} while (wygrana_gracz == 0 && wygrana_komputer==0 && remis==0);
 
-	getchar();
-	getchar();
-
-
-	if (wygrana_gracz == 1)
-	{
-		//system("cls");
-		cout << " " << liczba_symboli << " X w rzedzie!\n";
-		cout << "\nGratulacje\n";
-		cout << "WYGRALES! C:\n";
-	}
-
-	if (wygrana_komputer == 1)
-	{
-		//system("cls");
-		cout << " " << liczba_symboli << " O w rzedzie!\n";
-		cout << "\nNiestety\n";
-		cout << "Wygral przeciwnik :C\n";
-	}
-
-	if (remis == 1)
-	{
-		//system("cls");
-		cout << "Remis\n";
-		cout << "Nikt nie wygral, nikt nie przegral\n";
-	}
-	
+	InformacjaKoncowa();
 }
 
 // GRA Z KOMPUTEREM
 void Gra()
 {
+	int kto_zaczyna;
+
 	// TWORZENIE PLANSZY I INICJACJA
-	KolkoIKrzyzyk kik;
+	KolkoIKrzyzyk kik2;
+	
+Ponownie:
+	system("cls");
+	cout << " Kto ma zaczynac?\n";
+	cout << " 1 - Gracz\n";
+	cout << " 2 - Komputer\n";
+	cout << "\n Twoj wybor: ";
+	cin >> kto_zaczyna;
+	
+	if (kto_zaczyna == 1);
+	else if (kto_zaczyna == 2)
+		tura++;
+	else
+	{
+		cout << "\n Podaj poprawna cyfre \n";
+		Sleep(250);
+		goto Ponownie;
+	}
 
-	kik.Start();
-	kik.Inicjuj();
+	system("cls");
 
-	kik.Wyswietl();
+	kik2.Start();
+	kik2.Inicjuj();
+
+	kik2.Wyswietl();
 	do
 	{
 		// TURY GRACZY
@@ -551,7 +546,15 @@ void Gra()
 		{
 			// RUCHY GRACZA PIERWSZEGO
 			cout << " > Tura 1 gracza\n";
-			kik.Ruch_Gracz();
+			kik2.Ruch_Gracz();
+
+			if (kik2.Sprawdzanie() == 1)
+				wygrana_gracz = 1;
+			else if (kik2.Sprawdzanie() == -1)
+				wygrana_komputer = 1;
+			else if (kik2.Sprawdzanie() == 3)
+				remis = 1;
+
 			tura++;
 
 		}
@@ -559,36 +562,24 @@ void Gra()
 		{
 			// RUCHY GRACZA DRUGIEGO
 			cout << " < Tura 2 gracza\n";
-			kik.Najlepszy_ruch(liczba_pol, liczba_symboli);
+			kik2.Najlepszy_ruch();
+
+			if (kik2.Sprawdzanie() == 1)
+				wygrana_gracz = 1;
+			else if (kik2.Sprawdzanie() == -1)
+				wygrana_komputer = 1;
+			else if (kik2.Sprawdzanie() == 3)
+				remis = 1;
+
 			tura++;
 		}
 
-		kik.Wyswietl();
+		kik2.Wyswietl();
 
-	} while (kik.Sprawdzanie() == 0);
+	} while (wygrana_gracz == 0 && wygrana_komputer == 0 && remis == 0);
 
-	if (kik.Sprawdzanie() == 1)
-	{
-		system("cls");
-		cout << "Gratulacje\n";
-		cout << "WYGRALES! C:\n";
-	}
-
-	if (kik.Sprawdzanie() == 2)
-	{
-		system("cls");
-		cout << "Niestety\n";
-		cout << "Wygral przeciwnik :C\n";
-	}
-
-	if (kik.Sprawdzanie() == 3)
-	{
-		system("cls");
-		cout << "Remis\n";
-		cout << "Nikt nie wygral, nikt nie przegral\n";
-	}
+	InformacjaKoncowa();
 }
-
 
 /*------------------*/
 /*       MAIN       */
@@ -614,6 +605,8 @@ void menu()
 
 int main()
 {
+	PonownieMenu:
+	system("cls");
 	menu();
 	cin >> wybor;
 
@@ -621,7 +614,7 @@ int main()
 	{
 		case 1:
 			system("cls");
-			//Gra();
+			Gra();
 		break;
 
 		case 2:
@@ -632,6 +625,12 @@ int main()
 		case 3:
 			cout << "\n Zamykanie . . .\n";
 			exit(0);
+		break;
+
+		default:
+			cout << "\n Podaj poprawna liczbe ";
+			Sleep(250);
+			goto PonownieMenu;
 		break;
 
 	}
